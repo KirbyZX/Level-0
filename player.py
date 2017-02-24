@@ -31,7 +31,7 @@ class Player(pygame.sprite.Sprite):
         width = 70
         height = 84
 
-        self.stand1 = pygame.transform.scale(pygame.image.load("stand.png").convert_alpha(), [width, height])
+        self.stand = pygame.transform.scale(pygame.image.load("stand.png").convert_alpha(), [width, height])
 
         # Right-facing images
         image = pygame.transform.scale(pygame.image.load("player_run/run0.png").convert_alpha(), [width, height])
@@ -179,6 +179,6 @@ class Player(pygame.sprite.Sprite):
 
         self.change_x = 0
         if self.direction == "R":
-            self.image = self.stand1
+            self.image = self.stand
         else:
-            self.image = pygame.transform.flip(self.stand1, True, False)
+            self.image = pygame.transform.flip(self.stand, True, False)
