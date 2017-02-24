@@ -16,6 +16,7 @@ def main():
     screen = pygame.display.set_mode(size)
 
     pygame.display.set_caption("Level Zero")
+    pygame.display.set_icon(pygame.transform.scale(pygame.image.load("player_run/run0.png").convert_alpha(), [32, 32]))
 
     # Create the player
     player = Player()
