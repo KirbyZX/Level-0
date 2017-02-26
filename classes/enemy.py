@@ -17,6 +17,7 @@ class Enemy(pygame.sprite.Sprite):
         self.change_y = 0
 
         self.level = None
+        self.player = player
 
         self.direction = "R"
 
