@@ -34,26 +34,26 @@ class Player(pygame.sprite.Sprite):
 
         path = "C:/Users/lucas.LUCAS/Google Drive/Python/level_zero/images/"
 
-        self.stand = pygame.transform.scale(pygame.image.load(path + "stand.png").convert_alpha(), [width, height])
+        self.stand = pygame.transform.scale(pygame.image.load(path + "standg.png").convert_alpha(), [width, height])
 
         # Right-facing images
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run0.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run0g.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run1.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run1g.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run2.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run2g.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run3.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run3g.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run4.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run4g.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run5.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run5g.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run6.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run6g.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run7.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run7g.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run8.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run8g.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
 
         # Left-facing images
