@@ -1,6 +1,7 @@
 import pygame
 
 from classes.constants import *
+from classes.platform_moving import MovingPlatform
 
 
 class Player(pygame.sprite.Sprite):
@@ -156,6 +157,9 @@ class Player(pygame.sprite.Sprite):
 
             # Stop our vertical movement
             self.change_y = 0
+
+            if isinstance(block, MovingPlatform):
+                self.rect.x += block.change_x
 
     def calc_grav(self):
         """ Calculate effect of gravity. """
