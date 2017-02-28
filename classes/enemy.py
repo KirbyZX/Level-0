@@ -1,6 +1,7 @@
 import pygame
 
 from classes.constants import *
+from functions.ai import ai
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -36,20 +37,10 @@ class Enemy(pygame.sprite.Sprite):
 
         self.rect.x += self.change_x
 
-        # Basic AI
-        if self.rect.x > player.rect.x:
-            self.go_left()
-        elif self.rect.x < player.rect.x:
-            self.go_right()
-        else:
-            self.stop()
-
-        if self.rect.y < player.rect.y:
-            self.jump()
-
         # Add animation of images
 
-        # Add AI
+        # AI
+        ai(self, self.player)
 
         # Checking collisions
         block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False)
