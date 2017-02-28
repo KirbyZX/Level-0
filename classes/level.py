@@ -21,11 +21,11 @@ class Level:
         self.level_shift = 0
 
     # Update everything on this level
-    def update(self):
+    def update(self, player):
         """ Update everything in this level."""
 
         self.platform_list.update()
-        self.enemy_list.update()
+        self.enemy_list.update(player)
 
     def draw(self, screen):
         """ Draw everything on this level. """

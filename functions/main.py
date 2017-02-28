@@ -5,6 +5,7 @@ from classes.bullet import Bullet
 from classes.level_01 import *
 from classes.level_02 import *
 from classes.player import Player
+from classes.enemy import Enemy
 
 
 def main():
@@ -16,8 +17,9 @@ def main():
     size = [SCREEN_WIDTH, SCREEN_HEIGHT]
     screen = pygame.display.set_mode(size)
 
-    # Create the player
+    # Create the objects
     player = Player()
+    enemy = Enemy(player)
 
     pygame.display.set_caption("Level Zero")
     pygame.display.set_icon(pygame.transform.scale(player.running_frames_r[0], [32, 32]))
@@ -31,10 +33,13 @@ def main():
 
     active_sprite_list = pygame.sprite.Group()
     player.level = current_level
+    enemy.level = current_level
+    enemy.player = player
 
     player.rect.x = 340
     player.rect.y = SCREEN_HEIGHT - player.rect.height
     active_sprite_list.add(player)
+    level_list[current_level_no].enemy_list.add(enemy)
 
     # Loop until the user clicks the close button.
     done = False
@@ -90,7 +95,7 @@ def main():
                 active_sprite_list.remove(bullet)
 
         # Update items in the level
-        current_level.update()
+        current_level.update(player)
 
         # If the player gets near the right side, shift the world left (-x)
         if player.rect.right >= 750:

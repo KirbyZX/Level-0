@@ -25,16 +25,27 @@ class Enemy(pygame.sprite.Sprite):
         width = 70
         height = 84
         self.image = pygame.Surface([width, height])
-        self.image.fill(RED)
+        self.image.fill(BLUE)
 
         self.rect = self.image.get_rect()
 
-    def update(self):
+    def update(self, player):
         """ Moving the enemy """
 
         self.calc_grav()
 
         self.rect.x += self.change_x
+
+        # Basic AI
+        if self.rect.x > player.rect.x:
+            self.go_left()
+        elif self.rect.x < player.rect.x:
+            self.go_right()
+        else:
+            self.stop()
+
+        if self.rect.y < player.rect.y:
+            self.jump()
 
         # Add animation of images
 
@@ -90,7 +101,7 @@ class Enemy(pygame.sprite.Sprite):
     def go_right(self):
         """ AI controlled action """
 
-        self.change_x = -7
+        self.change_x = 7
         self.direction = "R"
 
     def stop(self):
