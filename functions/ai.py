@@ -29,13 +29,21 @@ def doBullets(bullets, k):
             player.hp()-=12
             k[b[5]]+=b[4]
             bullet.remove(b)
-        elif [b[0]-b[0]%50, b[1]-b[1]%50] in blocks: bullet.remove(b)
+        elif [b[0]-b[0]%50, b[1]-b[1]%50] in platform_list:
+          bullets.remove(b)
+          if b[4] in k[b[5]]: k[b[5]].remove(b[4])
             
 def ai(enemy, player, k):
     """ Basic A.I. for enemies """
     ep=[enemy.rect.x, enemy.rect.y]
     pp=[player.rect.x, player.rect.y]
-    op=k[enemy.type()] 
+    op=[0, 0]
+    for p in k[enemy.type()]:
+        op[0]+=p[0]
+        op[1]+=p[1]
+    op[0]=op[0]//len(k[enemy.type()])
+    op[1]=op[1]//len(k[enemy.type()])
+    dp=100
     att=enemies[enemy.type()]#attributes
     
     if (ep[0]**2-pp[0]**2)+(ep[1]**2-pp[1]**2)>op[0]**2:
@@ -46,7 +54,7 @@ def ai(enemy, player, k):
         enemy.stop()
     
     for atk in att[0]:
-        if "bullet" in atk and time.time()%atk[2]+enemy.cooldown():
+        if "bullet" in atk and (time.time()+enemy.cooldown())%atk[2]:
             ua=maths.atan((midpos[1]-pop[1])//(midpos[0]-pop[0]))
             addpx =atk[1]*maths.cos(us)
             addpy=atk[1]*maths.sin(ua)
