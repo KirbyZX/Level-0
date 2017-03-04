@@ -14,7 +14,7 @@ class Level:
 
         self.platform_list = pygame.sprite.Group()
         self.enemy_list = pygame.sprite.Group()
-        self.bullet_list = pygame.sprite.Group()
+        bullets=[]
         self.player = player
 
         # How far the level has been scrolled left/right
