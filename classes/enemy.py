@@ -6,7 +6,7 @@ from functions.ai import ai
 
 class Enemy(pygame.sprite.Sprite):
     """
-    General class to represent enemies
+    General class to represent enemies.
     """
 
     def __init__(self, player):

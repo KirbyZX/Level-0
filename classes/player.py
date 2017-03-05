@@ -6,7 +6,7 @@ from classes.platform_moving import MovingPlatform
 
 class Player(pygame.sprite.Sprite):
     """
-    Represents the main character in the level_zero which the player controls.
+    Represents the main character of the game which the player controls.
     """
 
     def __init__(self):
@@ -106,6 +106,9 @@ class Player(pygame.sprite.Sprite):
 
         # Image rectangle for collision
         self.rect = self.image.get_rect()
+
+        # Health points
+        self.hp = 0
 
     def update(self):
         """ Moving the player. """

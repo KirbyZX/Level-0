@@ -4,7 +4,7 @@ import math as maths
 enemies={"rifleman":[[["bullet", 6.3, 1]], 2.1, 24, "rifleman"]}
                      #atk type,speed,cooldown
 
-gravity_acelleration=0 #Lucas, use a variable for gravity, then remove this.
+gravity_acceleration=0 #Lucas, use a variable for gravity, then remove this.
   
 
     
@@ -15,18 +15,18 @@ gravity_acelleration=0 #Lucas, use a variable for gravity, then remove this.
 #They also each need a facing variable. I can provide a function for the angle of their facing direction.
 #They need a lot of individual attributes, like hp, and possibly courage if you can be bothered.
 
-def doBullets(bullets, k):
+def do_bullets(bullets, k):
     pp=[player.rect.x, player.rect.y]
     for b in bullets:
         b[0]+=b[2]
         b[1]+=b[3]
-        b[3]+=gravity_acelleration
-        if b[0]>pp[0]+20 and b[0]<pp[0]+50 and b[1]>pp[1] and b[1]<pp[1]+30: #HEADSHOT!
+        b[3]+=gravity_acceleration
+        if pp[0] + 20 < b[0] < pp[0] + 50 and pp[1] < b[1] < pp[1] + 30: #HEADSHOT!
             player.hp()-=36
             k[b[5]]+=[b[4], b[4]]
             bullet.remove(b)
-        elif b[0]>pp[0]+20 and b[0]<pp[0]+50 and b[1]>pp[1]+30 and b[1]<pp[1]+84: #SHOT!
-            player.hp()-=12
+        elif pp[0]+20 < b[0] < pp[0]+50 and pp[1] + 30 < b[1] < pp[1] + 84: #SHOT!
+            player.hp -=12
             k[b[5]]+=b[4]
             bullet.remove(b)
         elif [b[0]-b[0]%50, b[1]-b[1]%50] in platform_list:
