@@ -1,11 +1,11 @@
 import pygame
 
-from classes.constants import *
 from classes.bullet import Bullet
+from classes.rifleman import Rifleman
 from classes.level_01 import *
 from classes.level_02 import *
 from classes.player import Player
-from classes.enemy import Enemy
+from constants import *
 
 
 def main():
@@ -19,7 +19,7 @@ def main():
 
     # Create the objects
     player = Player()
-    enemy = Enemy(player)
+    enemy = Rifleman(player)
 
     pygame.display.set_caption("Level Zero")
     pygame.display.set_icon(pygame.transform.scale(player.running_frames_r[0], [32, 32]))
@@ -31,15 +31,15 @@ def main():
     current_level_no = 0
     current_level = level_list[current_level_no]
 
-    active_sprite_list = pygame.sprite.Group()
     player.level = current_level
     enemy.level = current_level
     enemy.player = player
 
+    active_sprite_list = pygame.sprite.Group()
     player.rect.x = 340
     player.rect.y = SCREEN_HEIGHT - player.rect.height
     active_sprite_list.add(player)
-    level_list[current_level_no].enemy_list.add(enemy)
+    current_level.enemy_list.add(enemy)
 
     # Loop until the user clicks the close button.
     done = False
@@ -61,8 +61,8 @@ def main():
                 if event.key == pygame.K_w:
                     player.jump()
                 if event.key == pygame.K_SPACE:
-                    # Fire a bullet if the user clicks the mouse button
-                    bullet = Bullet()
+                    # Fire a bullet if the user presses space
+                    bullet = Bullet(player)
                     # Set the bullet so it is where the player is
                     bullet.rect.x = player.rect.x + 35
                     bullet.rect.y = player.rect.y + 10
@@ -77,6 +77,7 @@ def main():
                     player.stop()
 
         # Update the player.
+        active_sprite_list.add(enemy.bullet_list)
         active_sprite_list.update()
 
         for bullet in level_list[current_level_no].bullet_list:
