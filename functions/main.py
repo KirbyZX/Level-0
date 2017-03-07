@@ -1,11 +1,11 @@
 import pygame
 
 from classes.bullet import Bullet
-from classes.rifleman import Rifleman
+from classes.constants import *
 from classes.level_01 import *
 from classes.level_02 import *
 from classes.player import Player
-from constants import *
+from classes.rifleman import Rifleman
 
 
 def main():
