@@ -63,9 +63,9 @@ def ai(enemy, player):
         enemy.jump()
 
 
-    if ep[0] - pp[0]  > op[0]:
+    if ep[0] - pp[0]  > op[0]-enemy.int:
         enemy.go_left()
-    elif (enemy.rect.x ** 2 - player.rect.x ** 2) + (enemy.rect.y ** 2 - player.rect.y ** 2) < dp[0] ** 2:
+    elif (ep[0] ** 2 - player.rect.x ** 2) + (ep[1]** 2 -pp[1]** 2) < dp[0] ** 2:
         enemy.go_right()
     else:
         enemy.stop()
@@ -80,7 +80,7 @@ def ai(enemy, player):
 
 
     for atk in att[0]:
-        if "bullet" in atk and (time.time() + enemy.cooldown()) % atk[2]:
+        if "bullet" in atk and (time.time() + enemy.int) % atk[2]:
             ua = maths.atan((midpos[1] - pop[1]) // (midpos[0] - pop[0]))
             addpx = atk[1] * maths.cos(us)
             addpy = atk[1] * maths.sin(ua)
