@@ -3,7 +3,7 @@ import time
 # import math as maths
 
 #                     attacks              speed hp  graphic
-enemies = {"rifleman": [[["bullet", 6.3, 1]], 2.1, 24, "rifleman"]}
+enemies={"rifleman":[[["bullet",6.3,1]],2.1,24,"rifleman"]}
 #                     atk type,speed,cool down
 
 gravity_acceleration = 0  # Lucas, use a variable for gravity, then remove this.
@@ -18,12 +18,16 @@ gravity_acceleration = 0  # Lucas, use a variable for gravity, then remove this.
 
 
 def do_bullets(bullets, k):
-    pp = [player.rect.x, player.rect.y]
+    pp=[player.rect.x, player.rect.y]
     for b in bullets:
-        b[0] += b[2]
-        b[1] += b[3]
-        b[3] += gravity_acceleration
-        if pp[0] + 20 < b[0] < pp[0] + 50 and pp[1] + 30 < b[1] < pp[1] + 84:  # SHOT!
+        b[0]+=b[2]
+        b[1]+=b[3]
+        b[3]+=gravity_acceleration
+        if pp[0]<b[0]<pp[0]+20 and pp[1]+30<b[1]<pp[1]+84:  # HEADSHOT!
+            player.hp -= 36
+            k[b[5]] += b[4]
+            bullet.remove(b)
+        if pp[0]+20<b[0]<pp[0]+50 and pp[1]+30<b[1]<pp[1]+84:  # SHOT!
             player.hp -= 12
             k[b[5]] += b[4]
             bullet.remove(b)
@@ -35,10 +39,12 @@ def do_bullets(bullets, k):
 
 def ai(enemy, player):
     """ Basic A.I. for enemies """
+    ep=[enemy.rect.x, enemy.rect.y]
+    pp=[player.rect.x, player.rect.y]
 
-    if player.rect.x > enemy.rect.x + 200:
+    if pp[0] > ep[0] + 200:
         enemy.go_right()
-    elif player.rect.x < enemy.rect.x - 200:
+    elif pp[0] < ep[0] - 200:
         enemy.go_left()
     else:
         enemy.stop()
@@ -57,7 +63,7 @@ def ai(enemy, player):
         enemy.jump()
 
 
-    if enemy.rect.x - player.rect.x  > op[0]:
+    if ep[0] - pp[0]  > op[0]:
         enemy.go_left()
     elif (enemy.rect.x ** 2 - player.rect.x ** 2) + (enemy.rect.y ** 2 - player.rect.y ** 2) < dp[0] ** 2:
         enemy.go_right()
