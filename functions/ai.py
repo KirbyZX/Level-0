@@ -17,7 +17,7 @@ gravity_acceleration = 0  # Lucas, use a variable for gravity, then remove this.
 # They need a lot of individual attributes, like hp, and possibly courage if you can be bothered.
 
 
-def do_bullets(bullets, k):
+"""def do_bullets(bullets, k):
     pp=[player.rect.x, player.rect.y]
     for b in bullets:
         b[0]+=b[2]
@@ -33,7 +33,7 @@ def do_bullets(bullets, k):
             bullet.remove(b)
         elif [b[0] - b[0] % 50, b[1] - b[1] % 50] in platform_list:
             bullets.remove(b)
-            if b[4] in k[b[5]]: k[b[5]].remove(b[4])
+            if b[4] in k[b[5]]: k[b[5]].remove(b[4])"""
 
 
 
