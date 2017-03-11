@@ -19,5 +19,6 @@ class Bullet(pygame.sprite.Sprite):
 
     def update(self):
         """ Move the bullet. """
-        self.rect.x += 15
+        self.rect.x += self.add_x
+        self.rect.y += self.add_y
         # Need to add direction
