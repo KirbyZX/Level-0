@@ -21,6 +21,9 @@ def main():
     player = Player()
     enemy = Enemy(player)
 
+    #Lives Calculation
+    lives = Player().lives()
+
     pygame.display.set_caption("Level Zero")
     pygame.display.set_icon(pygame.transform.scale(player.running_frames_r[0], [32, 32]))
 

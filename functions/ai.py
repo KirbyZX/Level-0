@@ -2,7 +2,11 @@ import pygame
 
 
 def ai(enemy, player):
+
     """ Basic A.I. for enemies """
+    if enemy.rect.x == player.rect.x & enemy.rect.y == player.rect.y:
+        player.lives() - 1
+
 
     if enemy.rect.x > player.rect.x + 200:
         enemy.go_left()

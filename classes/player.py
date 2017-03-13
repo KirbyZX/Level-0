@@ -146,6 +146,9 @@ class Player(pygame.sprite.Sprite):
             if isinstance(block, MovingPlatform):
                 self.rect.x += block.change_x
 
+    def lives(self):
+        player_health = 10
+
     def calc_grav(self):
         """ Calculate effect of gravity. """
 
