@@ -39,7 +39,7 @@ class Enemy(pygame.sprite.Sprite):
 
         self.rect.x += self.change_x
         
-        self.angle=maths.atan((self.rect.y-player.rect.y)/(self.rect.x-player.rect.x)) #face towards the player
+        # self.angle=maths.atan((self.rect.y-player.rect.y)/(self.rect.x-player.rect.x)) #face towards the player
 
         # Add animation of images
 

@@ -36,7 +36,6 @@ gravity_acceleration = 0  # Lucas, use a variable for gravity, then remove this.
             if b[4] in k[b[5]]: k[b[5]].remove(b[4])"""
 
 
-
 def ai(enemy, player):
     """ Basic A.I. for enemies """
     ep=[enemy.rect.x, enemy.rect.y]
@@ -50,20 +49,25 @@ def ai(enemy, player):
         enemy.stop()
         enemy.shoot()
 
-    enemy.rect.y += 2
+    enemy.rect.x += 2
     platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.platform_list, False)
-    enemy.rect.y -= 2
-    if len(platform_hit_list) > 0:
+    enemy.rect.x -= 2
+    if len(platform_hit_list) > 0 and enemy.change_x != 0:
         enemy.jump()
 
+    enemy.rect.x -= 2
+    platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.platform_list, False)
+    enemy.rect.x += 2
+    if len(platform_hit_list) > 0 and enemy.change_x != 0:
+        enemy.jump()
+"""
     enemy.rect.x -= att[1]
     platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.platform_list, False)
     enemy.rect.x += att[1]  # wat
     if len(platform_hit_list) > 0:
         enemy.jump()
 
-
-    if ep[0] - pp[0]  > op[0]-enemy.int:
+    if ep[0] - pp[0] > op[0]-enemy.int:
         enemy.go_left()
     elif (ep[0] ** 2 - player.rect.x ** 2) + (ep[1]** 2 -pp[1]** 2) < dp[0] ** 2:
         enemy.go_right()
@@ -86,4 +90,4 @@ def ai(enemy, player):
             addpy = atk[1] * maths.sin(ua)
             bullets += [[enemy.rect.x, enemy.rect.y, addpx, addpy, [epos[0] - epos[0] % 24, epos[1] - epos[1] % 24],
                          enemy.type()]]
-
+"""

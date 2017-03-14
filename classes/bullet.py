@@ -8,7 +8,7 @@ class Bullet(pygame.sprite.Sprite):
     Represents a bullet.
     """
 
-    def __init__(self, shooter):
+    def __init__(self):
         # Call the parent class (Sprite) constructor
         super().__init__()
 
@@ -16,8 +16,6 @@ class Bullet(pygame.sprite.Sprite):
         self.image.fill(BLACK)
 
         self.change_x = 15
-
-        self.shooter = shooter
 
         self.rect = self.image.get_rect()
 

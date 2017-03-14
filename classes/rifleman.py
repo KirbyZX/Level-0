@@ -28,8 +28,8 @@ class Rifleman(Enemy):
         bullet = Bullet()
         bullet.rect.x = self.rect.x
         bullet.rect.y = self.rect.y
-        bullet.change_x = 6.3 * maths.cos(self.angle)
-        bullet.change_y = 6.3 * maths.sin(self.angle)
+        # bullet.change_x = 6.3 * maths.cos(self.angle)
+        # bullet.change_y = 6.3 * maths.sin(self.angle)
         self.bullet_list.add(bullet)
 
     def go_left(self):
