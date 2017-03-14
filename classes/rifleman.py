@@ -1,4 +1,5 @@
 import pygame
+import math as maths
 
 from classes.enemy import Enemy
 from classes.bullet import Bullet
@@ -27,6 +28,10 @@ class Rifleman(Enemy):
         bullet = Bullet(self)
         bullet.rect.x = self.rect.x
         bullet.rect.y = self.rect.y
+        bullet.change_x=6.3*maths.cos(self.angle)
+        bullet.change_y=6.3*maths.sin(self.angle)
+        bullet.shotby="rifleman"
+        bullet.shotat=[self.rect.x, self.rect.y]
 
         self.bullet_list.add(bullet)
 

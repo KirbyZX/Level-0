@@ -3,7 +3,7 @@ import time
 # import math as maths
 
 #                     attacks              speed hp  graphic
-enemies = {"rifleman": [[["bullet", 6.3, 1]], 2.1, 24, "rifleman"]}
+enemies={"rifleman":[[["bullet",6.3,1]],2.1,24,"rifleman"]}
 #                     atk type,speed,cool down
 
 gravity_acceleration = 0  # Lucas, use a variable for gravity, then remove this.
@@ -16,29 +16,35 @@ gravity_acceleration = 0  # Lucas, use a variable for gravity, then remove this.
 # They also each need a facing variable. I can provide a function for the angle of their facing direction.
 # They need a lot of individual attributes, like hp, and possibly courage if you can be bothered.
 
-"""
-def do_bullets(bullets, k):
-    pp = [player.rect.x, player.rect.y]
+
+"""def do_bullets(bullets, k):
+    pp=[player.rect.x, player.rect.y]
     for b in bullets:
-        b[0] += b[2]
-        b[1] += b[3]
-        b[3] += gravity_acceleration
-        if pp[0] + 20 < b[0] < pp[0] + 50 and pp[1] + 30 < b[1] < pp[1] + 84:  # SHOT!
+        b[0]+=b[2]
+        b[1]+=b[3]
+        b[3]+=gravity_acceleration
+        if pp[0]<b[0]<pp[0]+20 and pp[1]+30<b[1]<pp[1]+84:  # HEADSHOT!
+            player.hp -= 36
+            k[b[5]] += b[4]
+            bullet.remove(b)
+        if pp[0]+20<b[0]<pp[0]+50 and pp[1]+30<b[1]<pp[1]+84:  # SHOT!
             player.hp -= 12
             k[b[5]] += b[4]
             bullet.remove(b)
         elif [b[0] - b[0] % 50, b[1] - b[1] % 50] in platform_list:
             bullets.remove(b)
-            if b[4] in k[b[5]]: k[b[5]].remove(b[4])
-"""
+            if b[4] in k[b[5]]: k[b[5]].remove(b[4])"""
+
 
 
 def ai(enemy, player):
     """ Basic A.I. for enemies """
+    ep=[enemy.rect.x, enemy.rect.y]
+    pp=[player.rect.x, player.rect.y]
 
-    if player.rect.x > enemy.rect.x + 200:
+    if pp[0] > ep[0] + 200:
         enemy.go_right()
-    elif player.rect.x < enemy.rect.x - 200:
+    elif pp[0] < ep[0] - 200:
         enemy.go_left()
     else:
         enemy.stop()
@@ -50,21 +56,19 @@ def ai(enemy, player):
     if len(platform_hit_list) > 0:
         enemy.jump()
 
-#    enemy.rect.x -= att[1]
+    enemy.rect.x -= att[1]
     platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.platform_list, False)
-#    enemy.rect.x += att[1]  # wat
+    enemy.rect.x += att[1]  # wat
     if len(platform_hit_list) > 0:
         enemy.jump()
 
-"""
-    if (enemy.rect.x ** 2 - player.rect.x ** 2) + (enemy.rect.y ** 2 - player.rect.y ** 2) > op[0] ** 2:
+
+    if ep[0] - pp[0]  > op[0]-enemy.int:
         enemy.go_left()
-    elif (enemy.rect.x ** 2 - player.rect.x ** 2) + (enemy.rect.y ** 2 - player.rect.y ** 2) < dp[0] ** 2:
+    elif (ep[0] ** 2 - player.rect.x ** 2) + (ep[1]** 2 -pp[1]** 2) < dp[0] ** 2:
         enemy.go_right()
     else:
         enemy.stop()
-"""
-"""
     op = [0, 0]
     for p in k[enemy.type()]:
         op[0] += p[0]
@@ -72,14 +76,14 @@ def ai(enemy, player):
     op[0] //= len(k[enemy.type()])
     op[1] //= len(k[enemy.type()])
     dp = 100
-#    att = enemies[enemy.type()]  # attributes
-"""
-"""
+    att = enemies[enemy.type()]  # attributes
+
+
     for atk in att[0]:
-        if "bullet" in atk and (time.time() + enemy.cooldown()) % atk[2]:
+        if "bullet" in atk and (time.time() + enemy.int) % atk[2]:
             ua = maths.atan((midpos[1] - pop[1]) // (midpos[0] - pop[0]))
             addpx = atk[1] * maths.cos(us)
             addpy = atk[1] * maths.sin(ua)
             bullets += [[enemy.rect.x, enemy.rect.y, addpx, addpy, [epos[0] - epos[0] % 24, epos[1] - epos[1] % 24],
                          enemy.type()]]
-"""
+

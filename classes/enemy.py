@@ -1,4 +1,5 @@
 import pygame
+import math as maths
 
 from constants import *
 from functions.ai import ai
@@ -37,6 +38,8 @@ class Enemy(pygame.sprite.Sprite):
         self.calc_grav()
 
         self.rect.x += self.change_x
+        
+        self.angle=maths.atan((self.rect.y-player.rect.y)/(self.rect.x-player.rect.x)) #face towards the player
 
         # Add animation of images
 
