@@ -1,6 +1,6 @@
 import pygame
 
-from classes.constants import *
+from constants import *
 
 
 class Level:

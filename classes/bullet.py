@@ -1,6 +1,6 @@
 import pygame
 
-from classes.constants import *
+from constants import *
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -15,9 +15,12 @@ class Bullet(pygame.sprite.Sprite):
         self.image = pygame.Surface([10, 3])
         self.image.fill(BLACK)
 
+        self.change_x = 15
+
         self.rect = self.image.get_rect()
 
     def update(self):
         """ Move the bullet. """
-        self.rect.x += 15
-        # Need to add direction
+
+        self.rect.x += self.change_x
+        # Jack, you put the getting shot part in the main loop

@@ -1,12 +1,13 @@
 import pygame
+import math as maths
 
-from classes.constants import *
+from constants import *
 from functions.ai import ai
 
 
 class Enemy(pygame.sprite.Sprite):
     """
-    General class to represent enemies
+    General class to represent enemies.
     """
 
     def __init__(self, player):
@@ -21,6 +22,7 @@ class Enemy(pygame.sprite.Sprite):
         self.player = player
 
         self.direction = "R"
+        self.angle = 0
 
         # Add image-related stuff here
         width = 70
@@ -36,6 +38,8 @@ class Enemy(pygame.sprite.Sprite):
         self.calc_grav()
 
         self.rect.x += self.change_x
+        
+        # self.angle=maths.atan((self.rect.y-player.rect.y)/(self.rect.x-player.rect.x)) #face towards the player
 
         # Add animation of images
 
@@ -83,16 +87,16 @@ class Enemy(pygame.sprite.Sprite):
         if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT:
             self.change_y = -10
 
-    def go_left(self):
+    def left(self, speed):
         """ AI controlled action """
 
-        self.change_x = -7
+        self.change_x = -speed
         self.direction = "L"
 
-    def go_right(self):
+    def right(self, speed):
         """ AI controlled action """
 
-        self.change_x = 7
+        self.change_x = speed
         self.direction = "R"
 
     def stop(self):

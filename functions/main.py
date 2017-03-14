@@ -1,11 +1,11 @@
 import pygame
 
-from classes.constants import *
-from classes.bullet import Bullet
+from constants import *
 from classes.level_01 import *
 from classes.level_02 import *
+from classes.bullet import Bullet
 from classes.player import Player
-from classes.enemy import Enemy
+from classes.rifleman import Rifleman
 
 
 def main():
@@ -19,7 +19,7 @@ def main():
 
     # Create the objects
     player = Player()
-    enemy = Enemy(player)
+    enemy = Rifleman(player)
 
     #Lives Calculation
     lives = Player().lives()
@@ -34,15 +34,15 @@ def main():
     current_level_no = 0
     current_level = level_list[current_level_no]
 
-    active_sprite_list = pygame.sprite.Group()
     player.level = current_level
     enemy.level = current_level
     enemy.player = player
 
+    active_sprite_list = pygame.sprite.Group()
     player.rect.x = 340
     player.rect.y = SCREEN_HEIGHT - player.rect.height
     active_sprite_list.add(player)
-    level_list[current_level_no].enemy_list.add(enemy)
+    current_level.enemy_list.add(enemy)
 
     # Loop until the user clicks the close button.
     done = False
@@ -64,7 +64,7 @@ def main():
                 if event.key == pygame.K_w:
                     player.jump()
                 if event.key == pygame.K_SPACE:
-                    # Fire a bullet if the user clicks the mouse button
+                    # Fire a bullet if the user presses space
                     bullet = Bullet()
                     # Set the bullet so it is where the player is
                     bullet.rect.x = player.rect.x + 35
@@ -80,6 +80,7 @@ def main():
                     player.stop()
 
         # Update the player.
+        active_sprite_list.add(enemy.bullet_list)
         active_sprite_list.update()
 
         for bullet in level_list[current_level_no].bullet_list:
@@ -124,6 +125,8 @@ def main():
         # ALL CODE TO DRAW SHOULD GO BELOW
         current_level.draw(screen)
         active_sprite_list.draw(screen)
+
+        pygame.draw.rect(screen, (0, 0, 0), [100, 10, 800, 20])
 
         # ALL CODE TO DRAW SHOULD GO ABOVE
 
