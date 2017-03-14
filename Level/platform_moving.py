@@ -1,6 +1,6 @@
 import pygame
 
-from classes.platform import Platform
+from Level.platform import Platform
 
 
 class MovingPlatform(Platform):

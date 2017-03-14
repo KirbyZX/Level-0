@@ -1,8 +1,7 @@
 import pygame
-import math as maths
 
+from Enemy.ai import ai
 from constants import *
-from functions.ai import ai
 
 
 class Enemy(pygame.sprite.Sprite):

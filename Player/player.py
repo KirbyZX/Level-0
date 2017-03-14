@@ -1,6 +1,6 @@
 import pygame
 
-from classes.platform_moving import MovingPlatform
+from Level.platform_moving import MovingPlatform
 from constants import *
 
 
@@ -33,7 +33,7 @@ class Player(pygame.sprite.Sprite):
         width = 70
         height = 84
 
-        path = "C:/Users/user/PycharmProjects/Level-0/images/"
+        path = "C:/Users/lucas.LUCAS/Google Drive/Python/Level-0/images/"
 
         self.stand = pygame.transform.scale(pygame.image.load(path + "stand.png").convert_alpha(), [width, height])
 
