@@ -11,7 +11,7 @@ class Level_01(Level):
     def __init__(self, player):
         """ Create level 1. """
 
-        # Call the parent constructor
+        # Call parent constructor
         Level.__init__(self, player)
 
         self.level_limit = -1000
