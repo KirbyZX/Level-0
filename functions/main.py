@@ -1,11 +1,11 @@
 import pygame
 
 from classes.bullet import Bullet
+from classes.constants import *
 from classes.level_01 import *
 from classes.level_02 import *
 from classes.player import Player
 from classes.rifleman import Rifleman
-from constants import *
 
 
 def main():
@@ -122,6 +122,8 @@ def main():
         # ALL CODE TO DRAW SHOULD GO BELOW
         current_level.draw(screen)
         active_sprite_list.draw(screen)
+        
+        pygame.draw.rect(playSurface, pygame.Color(255-255*player.hp/100, 0, 255*player.hp/100), Rect((25, 25, 25, (X//5)*(player.hp/100)))
 
         # ALL CODE TO DRAW SHOULD GO ABOVE
 
