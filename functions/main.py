@@ -1,9 +1,9 @@
 import pygame
 
-from classes.bullet import Bullet
-from classes.constants import *
+from constants import *
 from classes.level_01 import *
 from classes.level_02 import *
+from classes.bullet import Bullet
 from classes.player import Player
 from classes.rifleman import Rifleman
 
@@ -62,7 +62,7 @@ def main():
                     player.jump()
                 if event.key == pygame.K_SPACE:
                     # Fire a bullet if the user presses space
-                    bullet = Bullet(player)
+                    bullet = Bullet()
                     # Set the bullet so it is where the player is
                     bullet.rect.x = player.rect.x + 35
                     bullet.rect.y = player.rect.y + 10
@@ -122,8 +122,8 @@ def main():
         # ALL CODE TO DRAW SHOULD GO BELOW
         current_level.draw(screen)
         active_sprite_list.draw(screen)
-        
-        pygame.draw.rect(playSurface, pygame.Color(255-255*player.hp/100, 0, 255*player.hp/100), Rect((25, 25, 25, (X//5)*(player.hp/100)))
+
+        pygame.draw.rect(screen, (0, 0, 0), [100, 10, 800, 20])
 
         # ALL CODE TO DRAW SHOULD GO ABOVE
 
