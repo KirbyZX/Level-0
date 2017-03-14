@@ -1,8 +1,7 @@
 import pygame
-import math as maths
 
-from classes.enemy import Enemy
-from classes.bullet import Bullet
+from Enemy.enemy import Enemy
+from Level.bullet import Bullet
 
 
 class Rifleman(Enemy):

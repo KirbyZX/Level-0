@@ -1,11 +1,11 @@
 import pygame
 
+from Enemy.rifleman import Rifleman
+from Level.bullet import Bullet
+from Level.level_01 import *
+from Level.level_02 import *
+from Player.player import Player
 from constants import *
-from classes.level_01 import *
-from classes.level_02 import *
-from classes.bullet import Bullet
-from classes.player import Player
-from classes.rifleman import Rifleman
 
 
 def main():
@@ -21,8 +21,8 @@ def main():
     player = Player()
     enemy = Rifleman(player)
 
-    #Lives Calculation
-    lives = Player().lives()
+    # Lives Calculation
+    # lives = Player().lives()
 
     pygame.display.set_caption("Level Zero")
     pygame.display.set_icon(pygame.transform.scale(player.running_frames_r[0], [32, 32]))
@@ -126,6 +126,7 @@ def main():
         current_level.draw(screen)
         active_sprite_list.draw(screen)
 
+        # Health bar
         pygame.draw.rect(screen, (0, 0, 0), [100, 10, 800, 20])
 
         # ALL CODE TO DRAW SHOULD GO ABOVE
