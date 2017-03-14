@@ -38,8 +38,6 @@ gravity_acceleration = 0  # Lucas, use a variable for gravity, then remove this.
 
 def ai(enemy, player):
     """ Basic A.I. for enemies """
-    ep=[enemy.rect.x, enemy.rect.y]
-    pp=[player.rect.x, player.rect.y]
 
     if pp[0] > ep[0] + 200:
         enemy.go_right()

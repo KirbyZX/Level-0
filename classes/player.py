@@ -33,71 +33,56 @@ class Player(pygame.sprite.Sprite):
         width = 70
         height = 84
 
-        path = "C:/Users/lucas.LUCAS/Google Drive/Python/level_zero/images/"
+        path = "C:/Users/user/PycharmProjects/Level-0/images/"
 
         self.stand = pygame.transform.scale(pygame.image.load(path + "stand.png").convert_alpha(), [width, height])
 
         # Right-facing images
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run00.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run0.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run01.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run1.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run02.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run2.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run03.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run3.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run04.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run4.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run05.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run5.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run06.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run6.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run07.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run7.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run08.png").convert_alpha(), [width, height])
-        self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run09.png").convert_alpha(), [width, height])
-        self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run10.png").convert_alpha(), [width, height])
-        self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run11.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run8.png").convert_alpha(), [width, height])
         self.running_frames_r.append(image)
 
         # Left-facing images
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run00.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run0.png").convert_alpha(), [width, height])
         image = pygame.transform.flip(image, True, False)
         self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run01.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run1.png").convert_alpha(), [width, height])
         image = pygame.transform.flip(image, True, False)
         self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run02.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run2.png").convert_alpha(), [width, height])
         image = pygame.transform.flip(image, True, False)
         self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run03.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run3.png").convert_alpha(), [width, height])
         image = pygame.transform.flip(image, True, False)
         self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run04.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run4.png").convert_alpha(), [width, height])
         image = pygame.transform.flip(image, True, False)
         self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run05.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run5.png").convert_alpha(), [width, height])
         image = pygame.transform.flip(image, True, False)
         self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run06.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run6.png").convert_alpha(), [width, height])
         image = pygame.transform.flip(image, True, False)
         self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run07.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run7.png").convert_alpha(), [width, height])
         image = pygame.transform.flip(image, True, False)
         self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run08.png").convert_alpha(), [width, height])
-        image = pygame.transform.flip(image, True, False)
-        self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run09.png").convert_alpha(), [width, height])
-        image = pygame.transform.flip(image, True, False)
-        self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run10.png").convert_alpha(), [width, height])
-        image = pygame.transform.flip(image, True, False)
-        self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "gun_run/run11.png").convert_alpha(), [width, height])
+        image = pygame.transform.scale(pygame.image.load(path + "player_run/run8.png").convert_alpha(), [width, height])
         image = pygame.transform.flip(image, True, False)
         self.running_frames_l.append(image)
 
@@ -163,6 +148,9 @@ class Player(pygame.sprite.Sprite):
 
             if isinstance(block, MovingPlatform):
                 self.rect.x += block.change_x
+
+    def lives(self):
+        player_health = 10
 
     def calc_grav(self):
         """ Calculate effect of gravity. """
