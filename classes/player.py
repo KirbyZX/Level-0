@@ -1,7 +1,7 @@
 import pygame
 
-from classes.constants import *
 from classes.platform_moving import MovingPlatform
+from constants import *
 
 
 class Player(pygame.sprite.Sprite):
