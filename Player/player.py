@@ -93,7 +93,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         # Health points
-        self.hp = 0
+        self.hp = 100
 
     def update(self):
         """ Moving the player. """
