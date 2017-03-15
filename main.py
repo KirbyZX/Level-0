@@ -50,7 +50,6 @@ def main():
     # Used to manage how fast the screen updates
     clock = pygame.time.Clock()
 
-    # -------- Main Program Loop --------
     while not done:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -127,7 +126,9 @@ def main():
         active_sprite_list.draw(screen)
 
         # Health bar
-        pygame.draw.rect(screen, (255-int((255*player.hp/100)//1)), 0, int((255*player.hp/100)//1)), [100, 10, 80*player.hp/100, 20])
+        pygame.draw.rect(
+            screen, (255 - int((255 * player.hp / 100) // 1), 0, int((255 * player.hp / 100) // 1)), [100, 10, 800, 20]
+        )
 
         # ALL CODE TO DRAW SHOULD GO ABOVE
 
@@ -142,3 +143,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # -------- Main Program Loop --------
