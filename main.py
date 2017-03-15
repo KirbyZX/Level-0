@@ -127,7 +127,7 @@ def main():
         active_sprite_list.draw(screen)
 
         # Health bar
-        pygame.draw.rect(screen, (0, 0, 0), [100, 10, 800, 20])
+        pygame.draw.rect(screen, (255-int((255*player.hp/100)//1)), 0, int((255*player.hp/100)//1)), [100, 10, 80*player.hp/100, 20])
 
         # ALL CODE TO DRAW SHOULD GO ABOVE
 
