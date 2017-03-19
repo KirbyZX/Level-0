@@ -127,7 +127,7 @@ def main():
 
         # Health bar
         pygame.draw.rect(
-            screen, (255 - int((255 * player.hp / 100) // 1), 0, int((255 * player.hp / 100) // 1)), [100, 10, 800, 20]
+            screen, (255 - int((255 * player.hp / 100) // 1), int((255 * player.hp / 100) // 1), 0), [100, 10, 800*player.hp/100, 20]
         )
 
         # ALL CODE TO DRAW SHOULD GO ABOVE
@@ -143,4 +143,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # -------- Main Program Loop --------
