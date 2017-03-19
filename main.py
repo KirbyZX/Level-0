@@ -127,8 +127,12 @@ def main():
 
         # Health bar
         pygame.draw.rect(
-            screen, (255 - int((255 * player.hp / 100) // 1), int((255 * player.hp / 100) // 1), 0), [100, 10, 800*player.hp/100, 20]
-        )
+            screen,
+            # Colour
+            (255 - int((255 * player.hp / 100) // 1), int((255 * player.hp / 100) // 1), 0),
+            # Position
+            [100, 10, 800 * player.hp / 100, 20]
+            )
 
         # ALL CODE TO DRAW SHOULD GO ABOVE
 
