@@ -51,11 +51,16 @@ def main():
     clock = pygame.time.Clock()
 
     while not done:
+        mouse_pos = pygame.mouse.get_pos()
+        pygame.mouse.set_cursor(*pygame.cursors.broken_x)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
 
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_h:
+                    player.hp -= 1
                 if event.key == pygame.K_a:
                     player.go_left()
                 if event.key == pygame.K_d:
