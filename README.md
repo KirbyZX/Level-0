@@ -1,10 +1,12 @@
 # Level 0
-A stick-man platformer shooter with multiple game mechanics.
+##Introduction
 
-The player controls a stick-man shooting his way through the same level again and again.
-How will s/he ever escape?
-(We haven't planned that far yet)
+You have died and been sent to hell. For some reason. But, you have been given a chance to redeem yourself.
+
+Battle your way through the dimensions, eradicating evil along the way.
+Will you climb to heaven, or remain in hell?
 
 ***
 
-Being made by Jack, Lucas, Ethan & Rohan
+Code by Jack, Lucas & Rohan
+Art by Ethan
