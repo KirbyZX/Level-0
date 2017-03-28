@@ -16,6 +16,9 @@ def main():
     # Set the height and width of the screen
     size = [SCREEN_WIDTH, SCREEN_HEIGHT]
     screen = pygame.display.set_mode(size)
+    # Full screen?
+    # resolution = [1920, 1080]
+    # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
 
     # Create the objects
     player = Player()
@@ -51,26 +54,35 @@ def main():
     clock = pygame.time.Clock()
 
     while not done:
+        mouse_pos = pygame.mouse.get_pos()
+        pygame.mouse.set_cursor(*pygame.cursors.broken_x)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # Fire a bullet if the user presses space
+                bullet = Bullet(mouse_pos)
+                # Set the bullet so it is where the player is
+                bullet.rect.x = player.rect.x + 35
+                bullet.rect.y = player.rect.y + 10
+                bullet.calculate()
+                # Add the bullet to the lists
+                active_sprite_list.add(bullet)
+                level_list[current_level_no].bullet_list.add(bullet)
+
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    done = True
+                if event.key == pygame.K_h:
+                    player.hp -= 10
                 if event.key == pygame.K_a:
                     player.go_left()
                 if event.key == pygame.K_d:
                     player.go_right()
                 if event.key == pygame.K_w:
                     player.jump()
-                if event.key == pygame.K_SPACE:
-                    # Fire a bullet if the user presses space
-                    bullet = Bullet()
-                    # Set the bullet so it is where the player is
-                    bullet.rect.x = player.rect.x + 35
-                    bullet.rect.y = player.rect.y + 10
-                    # Add the bullet to the lists
-                    active_sprite_list.add(bullet)
-                    level_list[current_level_no].bullet_list.add(bullet)
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_a and player.change_x < 0:

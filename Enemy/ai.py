@@ -47,7 +47,6 @@ def ai(enemy, player):
         enemy.go_left()
     else:
         enemy.stop()
-        enemy.shoot()
 
     enemy.rect.x += 2
     platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.platform_list, False)

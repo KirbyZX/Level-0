@@ -24,11 +24,10 @@ class Rifleman(Enemy):
     def shoot(self):
         """ Shooting a bullet """
 
-        bullet = Bullet()
+        bullet = Bullet([self.player.rect.x, self.player.rect.y])
         bullet.rect.x = self.rect.x
         bullet.rect.y = self.rect.y
-        # bullet.change_x = 6.3 * maths.cos(self.angle)
-        # bullet.change_y = 6.3 * maths.sin(self.angle)
+        bullet.calculate()
         self.bullet_list.add(bullet)
 
     def go_left(self):
