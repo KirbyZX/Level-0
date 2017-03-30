@@ -1,6 +1,6 @@
 from Level.level import Level
-from Level.platform import Platform
-from Level.platform_moving import MovingPlatform
+from Level.block import Block
+from Level.block_moving import MovingBlock
 
 
 class Level_01(Level):
@@ -18,22 +18,22 @@ class Level_01(Level):
 
         # Array with width, height, x, and y of platforms
         level = [
-            [210, 70, 500, 600],
-            [210, 70, 800, 500],
-            [210, 70, 1000, 400],
-            [210, 70, 1120, 280],
+            [500, 600],
+            [800, 500],
+            [1000, 400],
+            [1120, 280],
                 ]
 
         # Go through the array above and add platforms
         for platform in level:
-            block = Platform(platform[0], platform[1])
-            block.rect.x = platform[2]
-            block.rect.y = platform[3]
+            block = Block()
+            block.rect.x = platform[0]
+            block.rect.y = platform[1]
             block.player = self.player
             self.platform_list.add(block)
 
-        # Add a moving platform
-        block = MovingPlatform(70, 40)
+        # Add a moving block
+        block = MovingBlock()
         block.rect.x = 1350
         block.rect.y = 280
         block.boundary_left = 1350

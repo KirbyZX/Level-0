@@ -1,9 +1,9 @@
 import pygame
 
-from Level.platform import Platform
+from Level.block import Block
 
 
-class MovingPlatform(Platform):
+class MovingBlock(Block):
     """ Platform that can move """
 
     change_x = 0

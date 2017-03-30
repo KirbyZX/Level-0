@@ -1,6 +1,6 @@
 import pygame
 
-from Level.platform_moving import MovingPlatform
+from Level.block_moving import MovingBlock
 from constants import *
 
 
@@ -146,7 +146,7 @@ class Player(pygame.sprite.Sprite):
             # Stop our vertical movement
             self.change_y = 0
 
-            if isinstance(block, MovingPlatform):
+            if isinstance(block, MovingBlock):
                 self.rect.x += block.change_x
 
     def lives(self):
