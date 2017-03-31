@@ -46,7 +46,7 @@ class Enemy(pygame.sprite.Sprite):
         ai(self, self.player)
 
         # Checking collisions
-        block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False)
+        block_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
         for block in block_hit_list:
             if self.change_x > 0:
                 self.rect.right = block.rect.left
@@ -55,7 +55,7 @@ class Enemy(pygame.sprite.Sprite):
 
         self.rect.y += self.change_y
 
-        block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False)
+        block_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
         for block in block_hit_list:
             if self.change_y > 0:
                 self.rect.bottom = block.rect.top
@@ -80,7 +80,7 @@ class Enemy(pygame.sprite.Sprite):
         """ AI controlled action """
 
         self.rect.y += 2
-        platform_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False)
+        platform_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
         self.rect.y -= 2
 
         if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT:

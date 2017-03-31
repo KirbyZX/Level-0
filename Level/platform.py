@@ -3,9 +3,9 @@ import pygame
 from constants import *
 
 
-class Block(pygame.sprite.Sprite):
+class Platform(pygame.sprite.Sprite):
     """
-    Platform the player can jump on.
+    Platform that can be jumped on from underneath
     """
 
     def __init__(self):
@@ -13,7 +13,7 @@ class Block(pygame.sprite.Sprite):
 
         super().__init__()
 
-        self.image = pygame.Surface([50, 50])
-        self.image.fill(RED)
+        self.image = pygame.Surface([50, 10])
+        self.image.fill(PURPLE)
 
         self.rect = self.image.get_rect()

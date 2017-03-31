@@ -12,7 +12,7 @@ class Level:
     def __init__(self, player):
         """ Constructor. Need player parameter for collisions. """
 
-        self.platform_list = pygame.sprite.Group()
+        self.block_list = pygame.sprite.Group()
         self.enemy_list = pygame.sprite.Group()
         self.bullet_list = pygame.sprite.Group()
         self.player = player
@@ -24,7 +24,7 @@ class Level:
     def update(self, player):
         """ Update everything in this level."""
 
-        self.platform_list.update()
+        self.block_list.update()
         self.enemy_list.update(player)
 
     def draw(self, screen):
@@ -34,7 +34,7 @@ class Level:
         screen.fill(WHITE)
 
         # Draw all the sprite lists that we have
-        self.platform_list.draw(screen)
+        self.block_list.draw(screen)
         self.enemy_list.draw(screen)
 
     def scroll(self, shift_x):
@@ -44,7 +44,7 @@ class Level:
         self.level_shift += shift_x
 
         # Go through all the sprite lists and shift
-        for platform in self.platform_list:
+        for platform in self.block_list:
             platform.rect.x += shift_x
 
         for enemy in self.enemy_list:

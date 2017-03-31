@@ -97,7 +97,7 @@ def main():
         for bullet in level_list[current_level_no].bullet_list:
 
             # See if it hit a block
-            block_hit_list = pygame.sprite.spritecollide(bullet, level_list[current_level_no].platform_list, False)
+            block_hit_list = pygame.sprite.spritecollide(bullet, level_list[current_level_no].block_list, False)
 
             # For each block hit, remove the bullet
             for _ in block_hit_list:

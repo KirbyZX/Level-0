@@ -49,13 +49,13 @@ def ai(enemy, player):
         enemy.stop()
 
     enemy.rect.x += 2
-    platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.platform_list, False)
+    platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.block_list, False)
     enemy.rect.x -= 2
     if len(platform_hit_list) > 0 and enemy.change_x != 0:
         enemy.jump()
 
     enemy.rect.x -= 2
-    platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.platform_list, False)
+    platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.block_list, False)
     enemy.rect.x += 2
     if len(platform_hit_list) > 0 and enemy.change_x != 0:
         enemy.jump()

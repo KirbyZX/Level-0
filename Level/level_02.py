@@ -30,7 +30,7 @@ class Level_02(Level):
             block.rect.x = platform[0]
             block.rect.y = platform[1]
             block.player = self.player
-            self.platform_list.add(block)
+            self.block_list.add(block)
 
         # Add a custom moving block
         block = MovingBlock()
@@ -41,4 +41,4 @@ class Level_02(Level):
         block.change_y = -1
         block.player = self.player
         block.level = self
-        self.platform_list.add(block)
+        self.block_list.add(block)

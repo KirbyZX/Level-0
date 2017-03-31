@@ -1,6 +1,7 @@
 import pygame
 
 from Level.block_moving import MovingBlock
+from Level.platform import Platform
 from constants import *
 
 
@@ -121,7 +122,7 @@ class Player(pygame.sprite.Sprite):
                 self.image = pygame.transform.flip(self.stand, True, False)
 
         # See if we hit anything
-        block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False)
+        block_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
         for block in block_hit_list:
             # If we are moving right, set our right side to the left side of the item we hit
             if self.change_x > 0:
@@ -134,13 +135,13 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.change_y
 
         # Check and see if we hit anything
-        block_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False)
+        block_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
         for block in block_hit_list:
 
             # Reset our position based on the top/bottom of the object
             if self.change_y > 0:
                 self.rect.bottom = block.rect.top
-            elif self.change_y < 0:
+            elif self.change_y < 0 and not isinstance(block, Platform):
                 self.rect.top = block.rect.bottom
 
             # Stop our vertical movement
@@ -148,9 +149,6 @@ class Player(pygame.sprite.Sprite):
 
             if isinstance(block, MovingBlock):
                 self.rect.x += block.change_x
-
-    def lives(self):
-        player_health = 10
 
     def calc_grav(self):
         """ Calculate effect of gravity. """
@@ -171,7 +169,7 @@ class Player(pygame.sprite.Sprite):
         # Check if there is a platform below us
         # Move down 2 pixels because it doesn't work well if we only move down 1
         self.rect.y += 2
-        platform_hit_list = pygame.sprite.spritecollide(self, self.level.platform_list, False)
+        platform_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
         self.rect.y -= 2
 
         # If able to jump, go up
