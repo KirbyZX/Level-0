@@ -95,7 +95,12 @@ class Player(pygame.sprite.Sprite):
 
         # Health points
         self.hp = 100
-
+        
+        self.e=100
+        if self.dashl[0]:
+            self.change_x=self.dashl[2]
+            self.change_y=self.dashl[3]
+            if time.time-self.dashl[1]>=0.1: self.dashl[0]=False
     def update(self):
         """ Moving the player. """
 
@@ -149,7 +154,9 @@ class Player(pygame.sprite.Sprite):
 
             if isinstance(block, MovingBlock):
                 self.rect.x += block.change_x
-
+                
+        self.e+=5/6
+        if self.e>100: self.e=100
     def calc_grav(self):
         """ Calculate effect of gravity. """
 
@@ -194,3 +201,10 @@ class Player(pygame.sprite.Sprite):
         """ Called when the user lets off the keyboard. """
 
         self.change_x = 0
+       
+    def dash(self):
+        
+        v=6 #this is an arbitrary dash velocity (6 is a very nice number)
+        ua=atan((pos[0]-self.rect.x)/(pos[1]-self.rect.y))
+        self.dashl=[True, time.time(), v*sin(ua), v*cos(ua)]
+        self.e-=25
