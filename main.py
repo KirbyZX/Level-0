@@ -83,6 +83,8 @@ def main():
                     player.go_right()
                 if event.key == pygame.K_w:
                     player.jump()
+                if event.key==ord("e"):
+                    player.dash()
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_a and player.change_x < 0:
@@ -132,20 +134,15 @@ def main():
                 current_level_no += 1
                 current_level = level_list[current_level_no]
                 player.level = current_level
-
         # ALL CODE TO DRAW SHOULD GO BELOW
         current_level.draw(screen)
         active_sprite_list.draw(screen)
-
         # Health bar
-        pygame.draw.rect(
-            screen,
-            # Colour
-            (255 - int((255 * player.hp / 100) // 1), int((255 * player.hp / 100) // 1), 0),
-            # Position
-            [100, 10, 800 * player.hp / 100, 20]
-            )
-
+        pygame.draw.rect(screen, (255-int((255*player.hp/100)//1), int((255*player.hp/100)//1), 0), [100, 10, 800*player.hp/ 100, 20])
+        pygame.draw.rect(screen, (255, 255, 255), [100, 10, 800, 20, 2])
+        #NRG
+        pygame.draw.rect(screen, (0, 255, 255), [100, 35, 500*player.e/100, 10])
+        pygame.draw.rect(screen, (255, 255, 255), [100, 35, 500, 10, 2])
         # ALL CODE TO DRAW SHOULD GO ABOVE
 
         # Limit to 60 frames per second
