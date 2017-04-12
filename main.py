@@ -89,7 +89,7 @@ def main():
         active_sprite_list.update()
         
         #SHOTS FIRED
-        if player.shooting and time.time()>=player.shottime+player.cooldown():
+        if player.shooting and time.time()>=player.shottime+player.cooldown:
             # Fire a bullet if the user clicks
             bullet = Bullet(mouse_pos)
             #Cooldown calculation code:
