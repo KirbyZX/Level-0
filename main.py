@@ -30,6 +30,7 @@ def main():
     # Lives Calculation
     # lives = Player().lives()
 
+    # Set caption and icon
     pygame.display.set_caption("Level Zero")
     pygame.display.set_icon(pygame.transform.scale(player.running_frames_r[0], [32, 32]))
 
