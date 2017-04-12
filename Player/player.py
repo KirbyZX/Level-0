@@ -104,7 +104,7 @@ class Player(pygame.sprite.Sprite):
         self.shooting = False
 
         self.jump_count = 2
-        
+
         # Reverse gravity
         self.reverse_gravity = False
 
@@ -186,7 +186,8 @@ class Player(pygame.sprite.Sprite):
             self.rect.y += 2
 
         # Reset jump count
-        if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT or self.rect.top <= 0:
+        if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT \
+                or (self.rect.top <= 0 and self.reverse_gravity):
             self.jump_count = 2
 
     def calc_gravity(self):
