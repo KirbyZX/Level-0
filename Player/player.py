@@ -166,15 +166,20 @@ class Player(pygame.sprite.Sprite):
 
             if isinstance(block, MovingBlock):
                 self.rect.x += block.change_x
-                
+
         # Check if there is a platform below us
         # Move down 2 pixels because it doesn't work well if we only move down 1
-        self.rect.y += 2
-        platform_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
-        self.rect.y -= 2
+        if not self.reverse_gravity:
+            self.rect.y += 2
+            platform_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
+            self.rect.y -= 2
+        else:
+            self.rect.y -= 2
+            platform_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
+            self.rect.y += 2
 
-        # If able to jump, go up
-        if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT:
+        # Reset jump count
+        if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT or self.rect.top <= 0:
             self.jump_count = 2
 
     def calc_gravity(self):
@@ -195,35 +200,22 @@ class Player(pygame.sprite.Sprite):
         if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
             self.change_y = 0
             self.rect.y = SCREEN_HEIGHT - self.rect.height
+        # See if we are on the ceiling
+        if self.rect.y <= 0 and self.change_y <= 0:
+            self.change_y = 0
+            self.rect.y = 0
+
+    # Player-controlled movement:
 
     def jump(self):
         """ Called when user hits 'jump' button. """
 
-
         if self.jump_count > 0:
-            self.change_y = -10
-            self.jump_count -= 1
-
-        # Check if there is a platform below us
-        # Move down 2 pixels because it doesn't work well if we only move down 1
-        if not self.reverse_gravity:
-            self.rect.y += 2
-            platform_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
-            self.rect.y -= 2
-        else:
-            self.rect.y -= 2
-            platform_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
-            self.rect.y += 2
-
-        # If able to jump, go up
-        if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT:
             if not self.reverse_gravity:
                 self.change_y = -10
             else:
                 self.change_y = 10
-
-
-    # Player-controlled movement:
+            self.jump_count -= 1
 
     def go_left(self):
         """ Called when the user hits the left arrow. """
