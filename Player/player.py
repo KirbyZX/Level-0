@@ -96,11 +96,14 @@ class Player(pygame.sprite.Sprite):
         # Health points
         self.hp = 100
 
+        # Reverse gravity
+        self.reverse_gravity = False
+
     def update(self):
         """ Moving the player. """
 
         # Gravity
-        self.calc_grav()
+        self.calc_gravity()
 
         # Move left/right
         self.rect.x += self.change_x
@@ -111,15 +114,27 @@ class Player(pygame.sprite.Sprite):
         # Animating
         if self.direction == "R" and self.change_x != 0:
             frame = (pos // 20) % len(self.running_frames_r)
-            self.image = self.running_frames_r[frame]
+            if self.reverse_gravity:
+                self.image = pygame.transform.flip(self.running_frames_r[frame], False, True)
+            else:
+                self.image = self.running_frames_r[frame]
         elif self.change_x != 0:
             frame = (pos // 20) % len(self.running_frames_l)
-            self.image = self.running_frames_l[frame]
+            if self.reverse_gravity:
+                self.image = pygame.transform.flip(self.running_frames_l[frame], False, True)
+            else:
+                self.image = self.running_frames_l[frame]
         else:
             if self.direction == "R":
-                self.image = self.stand
+                if self.reverse_gravity:
+                    self.image = pygame.transform.flip(self.stand, False, True)
+                else:
+                    self.image = self.stand
             else:
-                self.image = pygame.transform.flip(self.stand, True, False)
+                if self.reverse_gravity:
+                    self.image = pygame.transform.flip(pygame.transform.flip(self.stand, True, False), False, True)
+                else:
+                    self.image = pygame.transform.flip(self.stand, True, False)
 
         # See if we hit anything
         block_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
@@ -150,13 +165,19 @@ class Player(pygame.sprite.Sprite):
             if isinstance(block, MovingBlock):
                 self.rect.x += block.change_x
 
-    def calc_grav(self):
+    def calc_gravity(self):
         """ Calculate effect of gravity. """
 
         if self.change_y == 0:
-            self.change_y = 1
+            if self.reverse_gravity:
+                self.change_y = -1
+            else:
+                self.change_y = 1
         else:
-            self.change_y += .35
+            if self.reverse_gravity:
+                self.change_y += -.35
+            else:
+                self.change_y += .35
 
         # See if we are on the ground.
         if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
@@ -168,13 +189,21 @@ class Player(pygame.sprite.Sprite):
 
         # Check if there is a platform below us
         # Move down 2 pixels because it doesn't work well if we only move down 1
-        self.rect.y += 2
-        platform_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
-        self.rect.y -= 2
+        if not self.reverse_gravity:
+            self.rect.y += 2
+            platform_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
+            self.rect.y -= 2
+        else:
+            self.rect.y -= 2
+            platform_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
+            self.rect.y += 2
 
         # If able to jump, go up
         if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT:
-            self.change_y = -10
+            if not self.reverse_gravity:
+                self.change_y = -10
+            else:
+                self.change_y = 10
 
     # Player-controlled movement:
 

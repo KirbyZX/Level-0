@@ -34,7 +34,7 @@ class Enemy(pygame.sprite.Sprite):
     def update(self, player):
         """ Moving the enemy """
 
-        self.calc_grav()
+        self.calc_gravity()
 
         self.rect.x += self.change_x
         
@@ -64,7 +64,7 @@ class Enemy(pygame.sprite.Sprite):
 
             self.change_y = 0
 
-    def calc_grav(self):
+    def calc_gravity(self):
         """ Calculate gravity """
 
         if self.change_y == 0:
