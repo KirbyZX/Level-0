@@ -1,4 +1,6 @@
 import pygame
+import math as maths
+import time
 
 from Level.block_moving import MovingBlock
 from Level.platform import Platform
@@ -34,7 +36,7 @@ class Player(pygame.sprite.Sprite):
         width = 70
         height = 84
 
-        path = "C:/Users/lucas.LUCAS/Google Drive/Python/Level-0/images/"
+        path = "C:/Users/Haynes family/Level-0/images/"
 
         self.stand = pygame.transform.scale(pygame.image.load(path + "stand.png").convert_alpha(), [width, height])
 
@@ -95,17 +97,20 @@ class Player(pygame.sprite.Sprite):
 
         # Health points
         self.hp = 100
-        
-        self.e=100
-        if self.dashl[0]:
-            self.change_x=self.dashl[2]
-            self.change_y=self.dashl[3]
-            if time.time-self.dashl[1]>=0.1: self.dashl[0]=False
+
+        self.dash_list = [False, time.time(), 0, 0]
+
+        self.mouse = []
+
+        # Energy
+        self.energy = 100
+
     def update(self):
         """ Moving the player. """
 
         # Gravity
-        self.calc_grav()
+        if not self.dash_list[0]:
+            self.calc_grav()
 
         # Move left/right
         self.rect.x += self.change_x
@@ -154,9 +159,14 @@ class Player(pygame.sprite.Sprite):
 
             if isinstance(block, MovingBlock):
                 self.rect.x += block.change_x
-                
-        self.e+=5/6
-        if self.e>100: self.e=100
+
+        # Energy regeneration
+        self.energy += .2
+        if self.energy > 100:
+            self.energy = 100
+        if self.energy < 0:
+            self.energy = 0
+
     def calc_grav(self):
         """ Calculate effect of gravity. """
 
@@ -203,8 +213,24 @@ class Player(pygame.sprite.Sprite):
         self.change_x = 0
        
     def dash(self):
-        
-        v=6 #this is an arbitrary dash velocity (6 is a very nice number)
-        ua=atan((pos[0]-self.rect.x)/(pos[1]-self.rect.y))
-        self.dashl=[True, time.time(), v*sin(ua), v*cos(ua)]
-        self.e-=25
+        """ Moves the player towards the mouse. """
+
+        self.dash_list[1] = time.time()
+        diff_x = self.mouse[0] - self.rect.x
+        diff_y = self.mouse[1] - self.rect.y
+        # Preventing division by zero
+        if diff_x == 0:
+            diff_x = 1
+        # Calculating the angle
+        velocity = 10
+        angle = maths.atan(diff_y / diff_x)
+        if diff_x < 0:
+            angle = maths.pi - angle
+            angle *= -1
+        # Calculating movement
+        self.dash_list = [True, time.time(), velocity * maths.cos(angle), velocity * maths.sin(angle)]
+        self.energy -= 25
+        self.change_x = self.dash_list[2]
+        self.change_y = self.dash_list[3]
+
+
