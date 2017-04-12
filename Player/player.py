@@ -95,7 +95,10 @@ class Player(pygame.sprite.Sprite):
 
         # Health points
         self.hp = 100
-
+        
+        self.cooldown=0.1
+        self.shottime=0
+        self.shooting=False
     def update(self):
         """ Moving the player. """
 
