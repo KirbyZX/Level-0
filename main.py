@@ -63,8 +63,10 @@ def main():
             if event.type == pygame.QUIT:
                 done = True
 
-            if event.type == pygame.MOUSEBUTTONDOWN: player.shooting=True
-            if event.type == pygame.MOUSEBUTTONUP: player.shooting=False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                player.shooting = True
+            if event.type == pygame.MOUSEBUTTONUP:
+                player.shooting = False
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -88,12 +90,12 @@ def main():
         active_sprite_list.add(enemy.bullet_list)
         active_sprite_list.update()
         
-        #SHOTS FIRED
-        if player.shooting and time.time()>=player.shottime+player.cooldown:
+        # SHOTS FIRED
+        if player.shooting and time.time() >= player.shot_time + player.cooldown:
             # Fire a bullet if the user clicks
             bullet = Bullet(mouse_pos)
-            #Cooldown calculation code:
-            player.shottime=time.time()
+            # Cooldown calculation code
+            player.shot_time = time.time()
             # Set the bullet so it is where the player is
             bullet.rect.x = player.rect.x + 35
             bullet.rect.y = player.rect.y + 10
