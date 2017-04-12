@@ -17,19 +17,19 @@ class Level_01(Level):
 
         self.level_limit = -1000
 
-        # Array with width, height, x, and y of platforms
+        # Array with x, y and type of block
         level = [
-            [500, 600, "Platform"],
-            [800, 500, "Block"],
-            [1000, 400, "Block"],
-            [1120, 280, "Block"],
+            [500, 500, "platform"],
+            [800, 500, "block"],
+            [1000, 400, "block"],
+            [1120, 280, "block"],
                 ]
 
         # Go through the array above and add platforms
         for platform in level:
-            if platform[2] == "Block":
+            if platform[2] == "block":
                 block = Block()
-            elif platform[2] == "Platform":
+            elif platform[2] == "platform":
                 block = Platform()
             block.rect.x = platform[0]
             block.rect.y = platform[1]
