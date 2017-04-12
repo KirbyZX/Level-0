@@ -1,4 +1,5 @@
 import pygame
+import time
 
 from Enemy.rifleman import Rifleman
 from Level.bullet import Bullet
@@ -55,6 +56,7 @@ def main():
 
     while not done:
         mouse_pos = pygame.mouse.get_pos()
+        player.mouse = mouse_pos
         pygame.mouse.set_cursor(*pygame.cursors.broken_x)
 
         for event in pygame.event.get():
@@ -83,8 +85,9 @@ def main():
                     player.go_right()
                 if event.key == pygame.K_w:
                     player.jump()
-                if event.key==ord("e"):
-                    player.dash()
+                if event.key == pygame.K_e:
+                    if player.energy >= 25:
+                        player.dash()
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_a and player.change_x < 0:
@@ -95,6 +98,12 @@ def main():
         # Update the player.
         active_sprite_list.add(enemy.bullet_list)
         active_sprite_list.update()
+
+        # Stopping dashes
+        if player.dash_list[0]:
+            if time.time() - player.dash_list[1] >= .5:
+                player.dash_list[0] = False
+                player.stop()
 
         for bullet in level_list[current_level_no].bullet_list:
 
@@ -138,11 +147,11 @@ def main():
         current_level.draw(screen)
         active_sprite_list.draw(screen)
         # Health bar
+        pygame.draw.rect(screen, (255, 255, 255), [100, 10, 800, 20])
         pygame.draw.rect(screen, (255-int((255*player.hp/100)//1), int((255*player.hp/100)//1), 0), [100, 10, 800*player.hp/ 100, 20])
-        pygame.draw.rect(screen, (255, 255, 255), [100, 10, 800, 20, 2])
         #NRG
-        pygame.draw.rect(screen, (0, 255, 255), [100, 35, 500*player.e/100, 10])
-        pygame.draw.rect(screen, (255, 255, 255), [100, 35, 500, 10, 2])
+        pygame.draw.rect(screen, (255, 255, 255), [100, 35, 500, 10])
+        pygame.draw.rect(screen, (0, 255, 255), [100, 35, 500 * player.energy / 100, 10])
         # ALL CODE TO DRAW SHOULD GO ABOVE
 
         # Limit to 60 frames per second
