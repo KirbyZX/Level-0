@@ -93,9 +93,11 @@ class Player(pygame.sprite.Sprite):
         # Image rectangle for collision
         self.rect = self.image.get_rect()
 
-        # Health points
+        # Hit points
         self.hp = 100
 
+        self.jump_count = 2
+        
         # Reverse gravity
         self.reverse_gravity = False
 
@@ -164,6 +166,16 @@ class Player(pygame.sprite.Sprite):
 
             if isinstance(block, MovingBlock):
                 self.rect.x += block.change_x
+                
+        # Check if there is a platform below us
+        # Move down 2 pixels because it doesn't work well if we only move down 1
+        self.rect.y += 2
+        platform_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
+        self.rect.y -= 2
+
+        # If able to jump, go up
+        if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT:
+            self.jump_count = 2
 
     def calc_gravity(self):
         """ Calculate effect of gravity. """
@@ -187,6 +199,11 @@ class Player(pygame.sprite.Sprite):
     def jump(self):
         """ Called when user hits 'jump' button. """
 
+
+        if self.jump_count > 0:
+            self.change_y = -10
+            self.jump_count -= 1
+
         # Check if there is a platform below us
         # Move down 2 pixels because it doesn't work well if we only move down 1
         if not self.reverse_gravity:
@@ -204,6 +221,7 @@ class Player(pygame.sprite.Sprite):
                 self.change_y = -10
             else:
                 self.change_y = 10
+
 
     # Player-controlled movement:
 
