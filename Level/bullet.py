@@ -37,8 +37,8 @@ class Bullet(pygame.sprite.Sprite):
             angle = maths.pi - angle
             angle *= -1
         # Calculating movement
-        self.change_x = 15 * maths.cos(angle)
-        self.change_y = 15 * maths.sin(angle)
+        self.change_x = 20 * maths.cos(angle)
+        self.change_y = 20 * maths.sin(angle)
 
     def update(self):
         """ Move the bullet. """

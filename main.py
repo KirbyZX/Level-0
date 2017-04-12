@@ -22,6 +22,9 @@ def main():
     # resolution = [1920, 1080]
     # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
 
+    # Set cursor to cross-hair
+    pygame.mouse.set_cursor(*pygame.cursors.broken_x)
+
     # Create the objects
     player = Player()
     enemy = Rifleman(player)
@@ -29,6 +32,7 @@ def main():
     # Lives Calculation
     # lives = Player().lives()
 
+    # Set caption and icon
     pygame.display.set_caption("Level Zero")
     pygame.display.set_icon(pygame.transform.scale(player.running_frames_r[0], [32, 32]))
 
@@ -56,8 +60,9 @@ def main():
     clock = pygame.time.Clock()
 
     while not done:
+
+        # Mouse position
         mouse_pos = pygame.mouse.get_pos()
-        pygame.mouse.set_cursor(*pygame.cursors.broken_x)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -79,6 +84,8 @@ def main():
                     player.go_right()
                 if event.key == pygame.K_w:
                     player.jump()
+                if event.key == pygame.K_r:
+                    player.reverse_gravity = not player.reverse_gravity
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_a and player.change_x < 0:
