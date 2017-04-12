@@ -1,4 +1,6 @@
 import pygame
+import time, random
+import math as maths
 
 from Enemy.rifleman import Rifleman
 from Level.bullet import Bullet
@@ -67,15 +69,9 @@ def main():
                 done = True
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                # Fire a bullet if the user presses space
-                bullet = Bullet(mouse_pos)
-                # Set the bullet so it is where the player is
-                bullet.rect.x = player.rect.x + 35
-                bullet.rect.y = player.rect.y + 10
-                bullet.calculate()
-                # Add the bullet to the lists
-                active_sprite_list.add(bullet)
-                level_list[current_level_no].bullet_list.add(bullet)
+                player.shooting = True
+            if event.type == pygame.MOUSEBUTTONUP:
+                player.shooting = False
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -100,6 +96,20 @@ def main():
         # Update the player.
         active_sprite_list.add(enemy.bullet_list)
         active_sprite_list.update()
+        
+        # SHOTS FIRED
+        if player.shooting and time.time() >= player.shot_time + player.cooldown:
+            # Fire a bullet if the user clicks
+            bullet = Bullet(mouse_pos)
+            # Cooldown calculation code
+            player.shot_time = time.time()
+            # Set the bullet so it is where the player is
+            bullet.rect.x = player.rect.x + 35
+            bullet.rect.y = player.rect.y + 10
+            bullet.calculate()
+            # Add the bullet to the lists
+            active_sprite_list.add(bullet)
+            level_list[current_level_no].bullet_list.add(bullet)
 
         for bullet in level_list[current_level_no].bullet_list:
 

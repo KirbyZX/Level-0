@@ -1,4 +1,6 @@
 import pygame
+import time, random
+import math as maths
 
 from Level.block_moving import MovingBlock
 from Level.platform import Platform
@@ -95,6 +97,11 @@ class Player(pygame.sprite.Sprite):
 
         # Hit points
         self.hp = 100
+
+        # Handling automatic shooting
+        self.cooldown = 0.1
+        self.shot_time = 0
+        self.shooting = False
 
         self.jump_count = 2
         
