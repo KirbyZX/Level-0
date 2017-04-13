@@ -1,5 +1,5 @@
 import pygame
-import time, random
+import time
 import math as maths
 
 from Enemy.rifleman import Rifleman
@@ -64,6 +64,9 @@ def main():
         # Mouse position
         mouse_pos = pygame.mouse.get_pos()
 
+        player.mouse = mouse_pos
+        pygame.mouse.set_cursor(*pygame.cursors.broken_x)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
@@ -84,6 +87,9 @@ def main():
                     player.go_right()
                 if event.key == pygame.K_w:
                     player.jump()
+                if event.key == pygame.K_e:
+                    if player.energy >= 25:
+                        player.dash()
                 if event.key == pygame.K_r:
                     player.reverse_gravity = not player.reverse_gravity
 
@@ -110,6 +116,12 @@ def main():
             # Add the bullet to the lists
             active_sprite_list.add(bullet)
             level_list[current_level_no].bullet_list.add(bullet)
+
+        # Stopping dashes
+        if player.dash_list[0]:
+            if time.time() - player.dash_list[1] >= .5:
+                player.dash_list[0] = False
+                player.stop()
 
         for bullet in level_list[current_level_no].bullet_list:
 
@@ -149,20 +161,15 @@ def main():
                 current_level_no += 1
                 current_level = level_list[current_level_no]
                 player.level = current_level
-
         # ALL CODE TO DRAW SHOULD GO BELOW
         current_level.draw(screen)
         active_sprite_list.draw(screen)
-
         # Health bar
-        pygame.draw.rect(
-            screen,
-            # Colour
-            (255 - int((255 * player.hp / 100) // 1), int((255 * player.hp / 100) // 1), 0),
-            # Position
-            [100, 10, 800 * player.hp / 100, 20]
-            )
-
+        pygame.draw.rect(screen, (255, 255, 255), [100, 10, 800, 20])
+        pygame.draw.rect(screen, (255-int((255*player.hp/100)//1), int((255*player.hp/100)//1), 0), [100, 10, 800*player.hp/ 100, 20])
+        #NRG
+        pygame.draw.rect(screen, (255, 255, 255), [100, 35, 500, 10])
+        pygame.draw.rect(screen, (0, 255, 255), [100, 35, 500 * player.energy / 100, 10])
         # ALL CODE TO DRAW SHOULD GO ABOVE
 
         # Limit to 60 frames per second

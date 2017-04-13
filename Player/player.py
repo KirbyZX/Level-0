@@ -1,6 +1,6 @@
 import pygame
-import time, random
 import math as maths
+import time
 
 from Level.block_moving import MovingBlock
 from Level.platform import Platform
@@ -32,11 +32,11 @@ class Player(pygame.sprite.Sprite):
         self.running_frames_l = []
         self.running_frames_r = []
 
-        # Dimensions of player
+        # Dimensions of player (fat)
         width = 70
         height = 84
 
-        path = "C:/Users/lucas.LUCAS/Google Drive/Python/Level-0/images/"
+        path = "C:/Users/Haynes family/Level-0/images/"
 
         self.stand = pygame.transform.scale(pygame.image.load(path + "stand.png").convert_alpha(), [width, height])
 
@@ -98,6 +98,14 @@ class Player(pygame.sprite.Sprite):
         # Hit points
         self.hp = 100
 
+
+        self.dash_list = [False, time.time(), 0, 0]
+
+        self.mouse = []
+
+        # Energy
+        self.energy = 100
+
         # Handling automatic shooting
         self.cooldown = 0.1
         self.shot_time = 0
@@ -112,7 +120,9 @@ class Player(pygame.sprite.Sprite):
         """ Moving the player. """
 
         # Gravity
-        self.calc_gravity()
+
+        if not self.dash_list[0]:
+            self.calc_grav()
 
         # Move left/right
         self.rect.x += self.change_x
@@ -173,6 +183,14 @@ class Player(pygame.sprite.Sprite):
 
             if isinstance(block, MovingBlock):
                 self.rect.x += block.change_x
+
+
+        # Energy regeneration
+        self.energy += .2
+        if self.energy > 100:
+            self.energy = 100
+        if self.energy < 0:
+            self.energy = 0
 
         # Check if there is a platform below us
         # Move down 2 pixels because it doesn't work well if we only move down 1
@@ -241,3 +259,26 @@ class Player(pygame.sprite.Sprite):
         """ Called when the user lets off the keyboard. """
 
         self.change_x = 0
+       
+    def dash(self):
+        """ Moves the player towards the mouse. """
+
+        self.dash_list[1] = time.time()
+        diff_x = self.mouse[0] - self.rect.x
+        diff_y = self.mouse[1] - self.rect.y
+        # Preventing division by zero
+        if diff_x == 0:
+            diff_x = 1
+        # Calculating the angle
+        velocity = 10
+        angle = maths.atan(diff_y / diff_x)
+        if diff_x < 0:
+            angle = maths.pi - angle
+            angle *= -1
+        # Calculating movement
+        self.dash_list = [True, time.time(), velocity * maths.cos(angle), velocity * maths.sin(angle)]
+        self.energy -= 25
+        self.change_x = self.dash_list[2]
+        self.change_y = self.dash_list[3]
+
+
