@@ -14,6 +14,6 @@ class Platform(pygame.sprite.Sprite):
         super().__init__()
 
         self.image = pygame.Surface([50, 10])
-        self.image.fill(PURPLE)
+        self.image.fill(MAGENTA)
 
         self.rect = self.image.get_rect()

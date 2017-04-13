@@ -1,5 +1,4 @@
 import time
-
 import pygame
 
 from Animate.player import Player
@@ -28,9 +27,6 @@ def main():
     # Create the objects
     player = Player()
     enemy = Rifleman(player)
-
-    # Lives Calculation
-    # lives = Player().lives()
 
     # Set caption and icon
     pygame.display.set_caption("Level Zero")
