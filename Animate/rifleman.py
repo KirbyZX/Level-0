@@ -1,7 +1,7 @@
 import pygame
 
-from Enemy.enemy import Enemy
-from Level.bullet import Bullet
+from Animate.enemy import Enemy
+from Inanimate.bullet import Bullet
 
 
 class Rifleman(Enemy):

@@ -1,12 +1,12 @@
-import pygame
 import time
-import math as maths
 
-from Enemy.rifleman import Rifleman
-from Level.bullet import Bullet
+import pygame
+
+from Animate.player import Player
+from Animate.rifleman import Rifleman
+from Inanimate.bullet import Bullet
 from Level.level_01 import *
 from Level.level_02 import *
-from Player.player import Player
 from constants import *
 
 
@@ -164,12 +164,14 @@ def main():
         # ALL CODE TO DRAW SHOULD GO BELOW
         current_level.draw(screen)
         active_sprite_list.draw(screen)
+
         # Health bar
-        pygame.draw.rect(screen, (255, 255, 255), [100, 10, 800, 20])
-        pygame.draw.rect(screen, (255-int((255*player.hp/100)//1), int((255*player.hp/100)//1), 0), [100, 10, 800*player.hp/ 100, 20])
-        #NRG
-        pygame.draw.rect(screen, (255, 255, 255), [100, 35, 500, 10])
-        pygame.draw.rect(screen, (0, 255, 255), [100, 35, 500 * player.energy / 100, 10])
+        pygame.draw.rect(screen, BLACK, [98, 8, 803, 23], 2)  # Outline
+        pygame.draw.rect(screen, (255 - int((255 * player.hp / 100) // 1), int((255 * player.hp / 100) // 1), 0),
+                         [100, 10, 800 * player.hp / 100, 20])
+        # Energy bar
+        pygame.draw.rect(screen, BLACK, [98, 33, 503, 13], 2)  # Outline
+        pygame.draw.rect(screen, CYAN, [100, 35, 500 * player.energy / 100, 10])
         # ALL CODE TO DRAW SHOULD GO ABOVE
 
         # Limit to 60 frames per second

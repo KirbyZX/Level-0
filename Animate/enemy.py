@@ -1,6 +1,6 @@
 import pygame
 
-from Enemy.ai import ai
+from Animate.ai import ai
 from constants import *
 
 

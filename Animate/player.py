@@ -36,7 +36,7 @@ class Player(pygame.sprite.Sprite):
         width = 70
         height = 84
 
-        path = "C:/Users/Haynes family/Level-0/images/"
+        path = "C:/Users/lucas.Lucas/Google Drive/Python/Level-0/.images/"
 
         self.stand = pygame.transform.scale(pygame.image.load(path + "stand.png").convert_alpha(), [width, height])
 
@@ -98,8 +98,8 @@ class Player(pygame.sprite.Sprite):
         # Hit points
         self.hp = 100
 
-
-        self.dash_list = [False, time.time(), 0, 0]
+        # Dash control:   dashing?, dash time,   x, y
+        self.dash_list = [False,    time.time(), 0, 0]
 
         self.mouse = []
 
@@ -122,7 +122,7 @@ class Player(pygame.sprite.Sprite):
         # Gravity
 
         if not self.dash_list[0]:
-            self.calc_grav()
+            self.calc_gravity()
 
         # Move left/right
         self.rect.x += self.change_x
@@ -183,7 +183,6 @@ class Player(pygame.sprite.Sprite):
 
             if isinstance(block, MovingBlock):
                 self.rect.x += block.change_x
-
 
         # Energy regeneration
         self.energy += .2
