@@ -32,7 +32,7 @@ class Player(pygame.sprite.Sprite):
         self.running_frames_l = []
         self.running_frames_r = []
 
-        # Dimensions of player
+        # Dimensions of player (fat)
         width = 70
         height = 84
 
