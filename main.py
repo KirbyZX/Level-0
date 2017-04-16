@@ -18,6 +18,7 @@ def main():
     size = [SCREEN_WIDTH, SCREEN_HEIGHT]
     screen = pygame.display.set_mode(size)
     # Full screen?
+    # Find best resolution (i.e. first one)
     resolution = pygame.display.list_modes()[0]
     screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
 
