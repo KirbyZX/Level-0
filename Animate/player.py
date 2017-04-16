@@ -269,7 +269,7 @@ class Player(pygame.sprite.Sprite):
         if diff_x == 0:
             diff_x = 1
         # Calculating the angle
-        velocity = 10
+        velocity = 15
         angle = maths.atan(diff_y / diff_x)
         if diff_x < 0:
             angle = maths.pi - angle

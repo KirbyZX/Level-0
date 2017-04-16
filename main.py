@@ -18,8 +18,8 @@ def main():
     size = [SCREEN_WIDTH, SCREEN_HEIGHT]
     screen = pygame.display.set_mode(size)
     # Full screen?
-    # resolution = [1920, 1080]
-    # screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
+    resolution = pygame.display.list_modes()[0]
+    screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
 
     # Set cursor to cross-hair
     pygame.mouse.set_cursor(*pygame.cursors.broken_x)
@@ -59,9 +59,7 @@ def main():
 
         # Mouse position
         mouse_pos = pygame.mouse.get_pos()
-
         player.mouse = mouse_pos
-        pygame.mouse.set_cursor(*pygame.cursors.broken_x)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -115,7 +113,7 @@ def main():
 
         # Stopping dashes
         if player.dash_list[0]:
-            if time.time() - player.dash_list[1] >= .5:
+            if time.time() - player.dash_list[1] >= .25:
                 player.dash_list[0] = False
                 player.stop()
 
