@@ -1,5 +1,4 @@
-Level Zero
-==========
+# Level Zero
 ## Introduction
 
 You have died and been sent to hell. For some reason. But, you have been given a chance to redeem yourself.
