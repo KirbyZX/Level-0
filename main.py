@@ -27,7 +27,7 @@ def main():
     # Set cursor to cross-hair
     pygame.mouse.set_cursor(*pygame.cursors.broken_x)
 
-    # Create the objects
+    # Create the characters
     player = Player()
     enemy = Rifleman(player)
 
