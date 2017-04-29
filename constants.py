@@ -1,3 +1,4 @@
+import pygame
 # Global constants
 
 # Colours
@@ -11,5 +12,6 @@ YELLOW = (255, 255, 0)
 MAGENTA = (255, 0, 255)
 
 # Screen dimensions
-SCREEN_WIDTH = 1080
-SCREEN_HEIGHT = 720
+pygame.init()
+SCREEN_WIDTH = pygame.display.list_modes()[0][0]
+SCREEN_HEIGHT = pygame.display.list_modes()[0][1]

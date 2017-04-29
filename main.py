@@ -15,11 +15,13 @@ def main():
     pygame.init()
 
     # Set the height and width of the screen
-    size = [SCREEN_WIDTH, SCREEN_HEIGHT]
-    screen = pygame.display.set_mode(size)
+    # size = [SCREEN_WIDTH, SCREEN_HEIGHT]
+    # screen = pygame.display.set_mode(size)
     # Full screen?
     # Find best resolution (i.e. first one)
     resolution = pygame.display.list_modes()[0]
+    SCREEN_WIDTH = pygame.display.list_modes()[0][0]
+    SCREEN_HEIGHT = pygame.display.list_modes()[0][1]
     screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN)
 
     # Set cursor to cross-hair
@@ -129,7 +131,7 @@ def main():
                 active_sprite_list.remove(bullet)
 
             # Remove the bullet if it flies up off the screen
-            if bullet.rect.x > SCREEN_WIDTH + 10 or bullet.rect.x < -10:
+            if bullet.rect.x > SCREEN_WIDTH + 5 or bullet.rect.x < -5:
                 level_list[current_level_no].bullet_list.remove(bullet)
                 active_sprite_list.remove(bullet)
 
