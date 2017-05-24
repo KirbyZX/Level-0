@@ -9,13 +9,14 @@ class Level:
     Create a child class for each level with level-specific info.
     """
 
-    def __init__(self, player):
+    def __init__(self, player, game):
         """ Constructor. Need player parameter for collisions. """
 
         self.block_list = pygame.sprite.Group()
         self.enemy_list = pygame.sprite.Group()
         self.bullet_list = pygame.sprite.Group()
         self.player = player
+        self.game = game
 
         # How far the level has been scrolled left/right
         self.level_shift = 0

@@ -9,11 +9,11 @@ class Level_01(Level):
     Definition for level 1.
     """
 
-    def __init__(self, player):
+    def __init__(self, player, game):
         """ Create level 1. """
 
         # Call parent constructor
-        Level.__init__(self, player)
+        Level.__init__(self, player, game)
 
         self.level_limit = -1000
 
@@ -28,7 +28,7 @@ class Level_01(Level):
         # Go through the array above and add platforms
         for platform in level:
             if platform[2] == "block":
-                block = Block()
+                block = Block(game)
             elif platform[2] == "platform":
                 block = Platform()
             block.rect.x = platform[0]
@@ -37,7 +37,7 @@ class Level_01(Level):
             self.block_list.add(block)
 
         # Add a moving block
-        block = MovingBlock()
+        block = MovingBlock(game)
         block.rect.x = 1350
         block.rect.y = 280
         block.boundary_left = 1350

@@ -21,8 +21,8 @@ class Game:
 
         # Screen setup
         self.resolution = pygame.display.list_modes()[0]
-        self.screen_width = pygame.display.list_modes()[0][0]
-        self.screen_height = pygame.display.list_modes()[0][1]
+        self.screen_width = self.resolution[0]
+        self.screen_height = self.resolution[1]
         self.screen = pygame.display.set_mode(self.resolution, pygame.FULLSCREEN)
 
         # Object creation
@@ -35,7 +35,7 @@ class Game:
         pygame.mouse.set_cursor(*pygame.cursors.broken_x)
 
         # Create all the levels
-        self.level_list = [Level_01(self.player), Level_02(self.player)]
+        self.level_list = [Level_01(self.player, self), Level_02(self.player, self)]
 
         # Set the current level
         self.current_level_no = 0
@@ -143,17 +143,23 @@ class Game:
             self.current_level.update(self.player)
 
             # If the player gets near the right side, shift the world left (-x)
-            if self.player.rect.right >= 750:
-                diff = self.player.rect.right - 750
-                self.player.rect.right = 750
+            right_limit = int(self.screen_width * 4/5)
+            print(right_limit)
+            if self.player.rect.right >= right_limit:
+                diff = self.player.rect.right - right_limit
+                self.player.rect.right = right_limit
                 self.current_level.scroll(-diff)
 
             # If the player gets near the left side, shift the world right (+x)
-            if self.player.rect.left <= 250:
+            left_limit = int(self.screen_width * 1/5)
+            print(left_limit)
+            if self.player.rect.left <= left_limit:
                 if not self.current_level.level_shift == 0:
-                    diff = 250 - self.player.rect.left
-                    self.player.rect.left = 250
+                    diff = left_limit - self.player.rect.left
+                    self.player.rect.left = left_limit
                     self.current_level.scroll(diff)
+                elif self.player.rect.left <= 0:
+                    self.player.rect.left = 0
 
             # If the player gets to the end of the level, go to the next level
             current_position = self.player.rect.x + self.current_level.level_shift
