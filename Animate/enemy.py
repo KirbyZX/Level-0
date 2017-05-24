@@ -9,8 +9,10 @@ class Enemy(pygame.sprite.Sprite):
     General class to represent enemies.
     """
 
-    def __init__(self, player):
+    def __init__(self, player, game):
         """ Constructor """
+
+        self.game = game
 
         super().__init__()
 
@@ -72,9 +74,9 @@ class Enemy(pygame.sprite.Sprite):
         else:
             self.change_y += .35
 
-        if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
+        if self.rect.y >= self.game.screen_height - self.rect.height and self.change_y >= 0:
             self.change_y = 0
-            self.rect.y = SCREEN_HEIGHT - self.rect.height
+            self.rect.y = self.game.screen_height - self.rect.height
 
     def jump(self):
         """ AI controlled action """
@@ -83,7 +85,7 @@ class Enemy(pygame.sprite.Sprite):
         platform_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
         self.rect.y -= 2
 
-        if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT:
+        if len(platform_hit_list) > 0 or self.rect.bottom >= self.game.screen_height:
             self.change_y = -10
 
     def left(self, speed):

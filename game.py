@@ -17,6 +17,8 @@ class Game:
     def __init__(self):
         """ Constructor """
 
+        pygame.init()
+
         # Screen setup
         self.resolution = pygame.display.list_modes()[0]
         self.screen_width = pygame.display.list_modes()[0][0]
@@ -24,8 +26,8 @@ class Game:
         self.screen = pygame.display.set_mode(self.resolution, pygame.FULLSCREEN)
 
         # Object creation
-        self.player = Player()
-        self.enemy = Rifleman(self.player)
+        self.player = Player(self)
+        self.enemy = Rifleman(self.player, self)
 
         # Personalising
         pygame.display.set_caption("Level Zero")
@@ -60,8 +62,6 @@ class Game:
         """ Main program """
 
         while not self.done:
-
-            self.screen = pygame.display.set_mode(self.resolution, pygame.FULLSCREEN)
 
             # Mouse position
             mouse_pos = pygame.mouse.get_pos()
@@ -140,32 +140,32 @@ class Game:
                     self.active_sprite_list.remove(bullet)
 
             # Update items in the level
-            current_level.update(self.player)
+            self.current_level.update(self.player)
 
             # If the player gets near the right side, shift the world left (-x)
             if self.player.rect.right >= 750:
                 diff = self.player.rect.right - 750
                 self.player.rect.right = 750
-                current_level.scroll(-diff)
+                self.current_level.scroll(-diff)
 
             # If the player gets near the left side, shift the world right (+x)
             if self.player.rect.left <= 250:
-                if not current_level.level_shift == 0:
+                if not self.current_level.level_shift == 0:
                     diff = 250 - self.player.rect.left
                     self.player.rect.left = 250
-                    current_level.scroll(diff)
+                    self.current_level.scroll(diff)
 
             # If the player gets to the end of the level, go to the next level
-            current_position = self.player.rect.x + current_level.level_shift
-            if current_position < current_level.level_limit:
+            current_position = self.player.rect.x + self.current_level.level_shift
+            if current_position < self.current_level.level_limit:
                 self.player.rect.x = 120
                 if self.current_level_no < len(self.level_list) - 1:
                     self.current_level_no += 1
-                    current_level = self.level_list[self.current_level_no]
-                    self.player.level = current_level
+                    self.current_level = self.level_list[self.current_level_no]
+                    self.player.level = self.current_level
 
             # ALL CODE TO DRAW SHOULD GO BELOW
-            current_level.draw(self.screen)
+            self.current_level.draw(self.screen)
             self.active_sprite_list.draw(self.screen)
 
             # Health bar
