@@ -3,8 +3,11 @@ import pygame
 from Animate.ai import ai
 from constants import *
 
+info={}
 names=open("enemy_names.txt", "r")
-desc=open("")
+infos=open("enemy_info.txt", "r")
+for n in names.readlines():
+    info[n]=list(infos.readlines()[names.readlines().index(n)])
 
 class Enemy(pygame.sprite.Sprite):
     """
