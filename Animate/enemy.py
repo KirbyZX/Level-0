@@ -3,13 +3,15 @@ import pygame
 from Animate.ai import ai
 from constants import *
 
+names=open("enemy_names.txt", "r")
+desc=open("")
 
 class Enemy(pygame.sprite.Sprite):
     """
     General class to represent enemies.
     """
 
-    def __init__(self, player):
+    def __init__(self, player, type):
         """ Constructor """
 
         super().__init__()
