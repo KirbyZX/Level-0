@@ -19,6 +19,9 @@ class Enemy(pygame.sprite.Sprite):
         self.change_x = 0
         self.change_y = 0
 
+        self.health = 100
+        self.dead = False
+
         self.level = None
         self.player = player
 
@@ -104,3 +107,10 @@ class Enemy(pygame.sprite.Sprite):
         """ AI controlled action """
 
         self.change_x = 0
+
+    def die(self):
+        """ When health <= 0 """
+
+        self.image.fill(GREEN)
+        self.image = pygame.transform.rotate(self.image, 90)
+        self.dead = True

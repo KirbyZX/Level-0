@@ -39,26 +39,27 @@ gravity_acceleration = 0  # Lucas, use a variable for gravity, then remove this.
 def ai(enemy, player):
     """ Basic A.I. for enemies """
 
-    pp = [player.rect.x, player.rect.y]
-    ep = [enemy.rect.x, enemy.rect.y]
-    if pp[0] > ep[0] + 200:
-        enemy.go_right()
-    elif pp[0] < ep[0] - 200:
-        enemy.go_left()
-    else:
-        enemy.stop()
+    if not enemy.dead:
+        pp = [player.rect.x, player.rect.y]
+        ep = [enemy.rect.x, enemy.rect.y]
+        if pp[0] > ep[0] + 200:
+            enemy.go_right()
+        elif pp[0] < ep[0] - 200:
+            enemy.go_left()
+        else:
+            enemy.stop()
 
-    enemy.rect.x += 2
-    platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.block_list, False)
-    enemy.rect.x -= 2
-    if len(platform_hit_list) > 0 and enemy.change_x != 0:
-        enemy.jump()
+        enemy.rect.x += 2
+        platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.block_list, False)
+        enemy.rect.x -= 2
+        if len(platform_hit_list) > 0 and enemy.change_x != 0:
+            enemy.jump()
 
-    enemy.rect.x -= 2
-    platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.block_list, False)
-    enemy.rect.x += 2
-    if len(platform_hit_list) > 0 and enemy.change_x != 0:
-        enemy.jump()
+        enemy.rect.x -= 2
+        platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.block_list, False)
+        enemy.rect.x += 2
+        if len(platform_hit_list) > 0 and enemy.change_x != 0:
+            enemy.jump()
 """
     enemy.rect.x -= att[1]
     platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.platform_list, False)

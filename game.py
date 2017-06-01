@@ -142,9 +142,17 @@ class Game:
             # Update items in the level
             self.current_level.update(self.player)
 
+            # Killing enemies
+            for enemy in self.current_level.enemy_list:
+                bullet_hit_list = pygame.sprite.spritecollide(enemy, self.current_level.bullet_list, True)
+                if len(bullet_hit_list) > 0:
+                    enemy.health -= 10
+                if enemy.health <= 0 and not enemy.dead:
+                    enemy.die()
+                    self.active_sprite_list.remove(enemy)
+
             # If the player gets near the right side, shift the world left (-x)
             right_limit = int(self.screen_width * 4/5)
-            print(right_limit)
             if self.player.rect.right >= right_limit:
                 diff = self.player.rect.right - right_limit
                 self.player.rect.right = right_limit
@@ -152,9 +160,8 @@ class Game:
 
             # If the player gets near the left side, shift the world right (+x)
             left_limit = int(self.screen_width * 1/5)
-            print(left_limit)
             if self.player.rect.left <= left_limit:
-                if not self.current_level.level_shift == 0:
+                if not self.player.rect.left + self.current_level.level_shift - left_limit <= 0:
                     diff = left_limit - self.player.rect.left
                     self.player.rect.left = left_limit
                     self.current_level.scroll(diff)
