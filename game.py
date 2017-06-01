@@ -92,6 +92,14 @@ class Game:
                             self.player.dash()
                     if event.key == pygame.K_r:
                         self.player.reverse_gravity = not self.player.reverse_gravity
+                    if event.key == pygame.K_q:
+                        # Spawn enemy
+                        self.enemy = Rifleman(self.player, self)
+                        self.enemy.level = self.current_level
+                        self.enemy.player = self.player
+                        self.enemy.rect.x = mouse_pos[0]
+                        self.enemy.rect.y = mouse_pos[1]
+                        self.current_level.enemy_list.add(self.enemy)
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_a and self.player.change_x < 0:
@@ -144,12 +152,13 @@ class Game:
 
             # Killing enemies
             for enemy in self.current_level.enemy_list:
-                bullet_hit_list = pygame.sprite.spritecollide(enemy, self.current_level.bullet_list, True)
-                if len(bullet_hit_list) > 0:
-                    enemy.health -= 10
-                if enemy.health <= 0 and not enemy.dead:
-                    enemy.die()
-                    self.active_sprite_list.remove(enemy)
+                if not enemy.dead:
+                    bullet_hit_list = pygame.sprite.spritecollide(enemy, self.current_level.bullet_list, True)
+                    if len(bullet_hit_list) > 0:
+                        enemy.health -= 10
+                    if enemy.health <= 0:
+                        enemy.die()
+                        self.active_sprite_list.remove(enemy)
 
             # If the player gets near the right side, shift the world left (-x)
             right_limit = int(self.screen_width * 4/5)
@@ -161,12 +170,14 @@ class Game:
             # If the player gets near the left side, shift the world right (+x)
             left_limit = int(self.screen_width * 1/5)
             if self.player.rect.left <= left_limit:
-                if not self.player.rect.left + self.current_level.level_shift - left_limit <= 0:
+                if self.current_level.level_shift >= 0:
+                    self.current_level.level_shift = 0
+                    if self.player.rect.left <= 0:
+                        self.player.rect.left = 0
+                else:
                     diff = left_limit - self.player.rect.left
                     self.player.rect.left = left_limit
                     self.current_level.scroll(diff)
-                elif self.player.rect.left <= 0:
-                    self.player.rect.left = 0
 
             # If the player gets to the end of the level, go to the next level
             current_position = self.player.rect.x + self.current_level.level_shift

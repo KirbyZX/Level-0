@@ -10,6 +10,8 @@ CYAN = (0, 255, 255)
 YELLOW = (255, 255, 0)
 MAGENTA = (255, 0, 255)
 
+list_of_colours = [GREEN, RED, BLUE, CYAN, YELLOW, MAGENTA]
+
 # Screen dimensions
 # pygame.init()
 # SCREEN_WIDTH = pygame.display.list_modes()[0][0]

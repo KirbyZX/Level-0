@@ -1,4 +1,5 @@
 import pygame
+import random
 
 from Animate.ai import ai
 from constants import *
@@ -28,11 +29,13 @@ class Enemy(pygame.sprite.Sprite):
         self.direction = "R"
         self.angle = 0
 
+        self.random = random.randrange(150, 250)
+
         # Add image-related stuff here
-        width = 70
-        height = 84
+        width = int(game.screen_width / 18)
+        height = int(game.screen_height / 9)
         self.image = pygame.Surface([width, height])
-        self.image.fill(BLUE)
+        self.image.fill(random.choice(list_of_colours))
 
         self.rect = self.image.get_rect()
 
@@ -48,7 +51,7 @@ class Enemy(pygame.sprite.Sprite):
         # Add animation of images
 
         # AI
-        ai(self, self.player)
+        ai(self, self.player, self.random)
 
         # Checking collisions
         block_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
@@ -113,4 +116,5 @@ class Enemy(pygame.sprite.Sprite):
 
         self.image.fill(GREEN)
         self.image = pygame.transform.rotate(self.image, 90)
+        self.stop()
         self.dead = True

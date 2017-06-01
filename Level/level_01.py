@@ -20,7 +20,7 @@ class Level_01(Level):
         # Array with x, y and type of block
         level = [
             [500, 500, "platform"],
-            [800, 500, "block"],
+            [800, 1000, "block"],
             [1000, 400, "block"],
             [1120, 280, "block"],
                 ]
