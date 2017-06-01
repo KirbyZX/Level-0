@@ -29,7 +29,8 @@ class Enemy(pygame.sprite.Sprite):
 
         self.direction = "R"
         self.angle = 0
-        self.speed=self.info[0]
+        self.hp=self.info[0]
+        self.speed=self.info[1]
 
         # Add image-related stuff here
         width = 70
