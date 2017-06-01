@@ -34,8 +34,8 @@ class Player(pygame.sprite.Sprite):
         self.running_frames_r = []
 
         # Dimensions of player (fat)
-        width = int(game.screen_width / 16)
-        height = int(game.screen_height / 9)
+        width = int(game.unit_width)
+        height = int(game.unit_height * 2)
 
         path = "C:/Users/lucas.Lucas/Google Drive/Python/Level-0/.images/"
 

@@ -32,8 +32,8 @@ class Enemy(pygame.sprite.Sprite):
         self.random = random.randrange(150, 250)
 
         # Add image-related stuff here
-        width = int(game.screen_width / 18)
-        height = int(game.screen_height / 9)
+        width = int(game.unit_width)
+        height = int(game.unit_height * 2)
         self.image = pygame.Surface([width, height])
         self.image.fill(random.choice(list_of_colours))
 
@@ -114,7 +114,8 @@ class Enemy(pygame.sprite.Sprite):
     def die(self):
         """ When health <= 0 """
 
-        self.image.fill(GREEN)
+        self.jump()
+        self.image.fill(BLACK)
         self.image = pygame.transform.rotate(self.image, 90)
         self.stop()
         self.dead = True

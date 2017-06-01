@@ -25,6 +25,9 @@ class Game:
         self.screen_height = self.resolution[1]
         self.screen = pygame.display.set_mode(self.resolution, pygame.FULLSCREEN)
 
+        self.unit_width = self.screen_width / 27
+        self.unit_height = self.screen_height / 18
+
         # Object creation
         self.player = Player(self)
         self.enemy = Rifleman(self.player, self)
@@ -161,14 +164,14 @@ class Game:
                         self.active_sprite_list.remove(enemy)
 
             # If the player gets near the right side, shift the world left (-x)
-            right_limit = int(self.screen_width * 4/5)
+            right_limit = int(self.screen_width * 4 / 5)
             if self.player.rect.right >= right_limit:
                 diff = self.player.rect.right - right_limit
                 self.player.rect.right = right_limit
                 self.current_level.scroll(-diff)
 
             # If the player gets near the left side, shift the world right (+x)
-            left_limit = int(self.screen_width * 1/5)
+            left_limit = int(self.screen_width * 1 / 5)
             if self.player.rect.left <= left_limit:
                 if self.current_level.level_shift >= 0:
                     self.current_level.level_shift = 0
@@ -193,14 +196,17 @@ class Game:
             self.active_sprite_list.draw(self.screen)
 
             # Health bar
-            pygame.draw.rect(self.screen, BLACK, [98, 8, 803, 23], 2)  # Outline
-            pygame.draw.rect(self.screen,
-                             (255 - int((255 * self.player.hp / 100) // 1),
-                              int((255 * self.player.hp / 100) // 1), 0),
-                             [100, 10, 800 * self.player.hp / 100, 20])
+            pygame.draw.rect(self.screen, BLACK, [self.unit_width - 2, self.unit_height / 2 - 2,
+                                                  self.unit_width * 12 * self.player.hp / 50 + 3, self.unit_height / 2 + 3], 2)  # Outline
+            pygame.draw.rect(self.screen, (255 - int((255 * self.player.hp / 100) // 1),
+                                           int((255 * self.player.hp / 100) // 1), 0),
+                             [self.unit_width, self.unit_height / 2,
+                              self.unit_width * 12 * self.player.hp / 50, self.unit_height / 2])
             # Energy bar
-            pygame.draw.rect(self.screen, BLACK, [98, 33, 503, 13], 2)  # Outline
-            pygame.draw.rect(self.screen, CYAN, [100, 35, 500 * self.player.energy / 100, 10])
+            pygame.draw.rect(self.screen, BLACK, [self.unit_width - 2, self.unit_height,
+                                                  12 * self.unit_width + 3, self.unit_height / 2 + 5], 2)  # Outline
+            pygame.draw.rect(self.screen, CYAN, [self.unit_width, self.unit_height + 2,
+                                                 self.unit_width * 6 * self.player.energy / 50, self.unit_height / 2 + 2])
             # ALL CODE TO DRAW SHOULD GO ABOVE
 
             # Limit to 60 frames per second

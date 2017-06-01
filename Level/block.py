@@ -15,8 +15,9 @@ class Block(pygame.sprite.Sprite):
 
         self.game = game
 
-        self.size = game.screen_width / 24
-        self.image = pygame.Surface([self.size, self.size])
+        self.width = game.unit_width
+        self.height = game.unit_height
+        self.image = pygame.Surface([self.width, self.height])
         self.image.fill(RED)
 
         self.rect = self.image.get_rect()
