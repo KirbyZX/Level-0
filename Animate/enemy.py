@@ -18,6 +18,8 @@ class Enemy(pygame.sprite.Sprite):
         """ Constructor """
 
         super().__init__()
+        
+        self.info=info[type]
 
         self.change_x = 0
         self.change_y = 0
@@ -27,6 +29,7 @@ class Enemy(pygame.sprite.Sprite):
 
         self.direction = "R"
         self.angle = 0
+        self.speed=self.info[0]
 
         # Add image-related stuff here
         width = 70
@@ -91,16 +94,16 @@ class Enemy(pygame.sprite.Sprite):
         if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT:
             self.change_y = -10
 
-    def left(self, speed):
+    def left(self):
         """ AI controlled action """
 
-        self.change_x = -speed
+        self.change_x = -self.speed
         self.direction = "L"
 
-    def right(self, speed):
+    def right(self):
         """ AI controlled action """
 
-        self.change_x = speed
+        self.change_x = self.speed
         self.direction = "R"
 
     def stop(self):
