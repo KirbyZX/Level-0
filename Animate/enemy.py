@@ -114,8 +114,8 @@ class Enemy(pygame.sprite.Sprite):
     def die(self):
         """ When health <= 0 """
 
-        self.jump()
         self.image.fill(BLACK)
         self.image = pygame.transform.rotate(self.image, 90)
+        self.rect = self.image.get_rect()
         self.stop()
         self.dead = True

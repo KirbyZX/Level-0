@@ -192,21 +192,31 @@ class Game:
                     self.player.level = self.current_level
 
             # ALL CODE TO DRAW SHOULD GO BELOW
+
             self.current_level.draw(self.screen)
             self.active_sprite_list.draw(self.screen)
 
-            # Health bar
-            pygame.draw.rect(self.screen, BLACK, [self.unit_width - 2, self.unit_height / 2 - 2,
-                                                  self.unit_width * 12 * self.player.hp / 50 + 3, self.unit_height / 2 + 3], 2)  # Outline
-            pygame.draw.rect(self.screen, (255 - int((255 * self.player.hp / 100) // 1),
-                                           int((255 * self.player.hp / 100) // 1), 0),
+            # HEALTH bar
+            # Outline
+            pygame.draw.rect(self.screen, BLACK,
+                             [self.unit_width - 2, self.unit_height / 2 - 2,
+                              self.unit_width * 24 + 3, self.unit_height / 2 + 3], 2)
+            # Bar
+            pygame.draw.rect(self.screen,
+                             (255 - int((255 * self.player.hp / 100) // 1), int((255 * self.player.hp / 100) // 1), 0),
                              [self.unit_width, self.unit_height / 2,
                               self.unit_width * 12 * self.player.hp / 50, self.unit_height / 2])
-            # Energy bar
-            pygame.draw.rect(self.screen, BLACK, [self.unit_width - 2, self.unit_height,
-                                                  12 * self.unit_width + 3, self.unit_height / 2 + 5], 2)  # Outline
-            pygame.draw.rect(self.screen, CYAN, [self.unit_width, self.unit_height + 2,
-                                                 self.unit_width * 6 * self.player.energy / 50, self.unit_height / 2 + 2])
+            # ENERGY bar
+            # Outline
+            pygame.draw.rect(self.screen, BLACK,
+                             [self.unit_width - 2, self.unit_height,
+                              12 * self.unit_width + 3, self.unit_height / 4 + 5]
+                             , 2)
+            # Bar
+            pygame.draw.rect(self.screen, CYAN,
+                             [self.unit_width, self.unit_height + 2,
+                              self.unit_width * 6 * self.player.energy / 50, self.unit_height / 4 + 2])
+
             # ALL CODE TO DRAW SHOULD GO ABOVE
 
             # Limit to 60 frames per second
