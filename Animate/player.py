@@ -4,7 +4,6 @@ import time
 
 from Level.block_moving import MovingBlock
 from Level.platform import Platform
-from constants import *
 
 
 class Player(pygame.sprite.Sprite):
@@ -12,11 +11,13 @@ class Player(pygame.sprite.Sprite):
     Represents the main character of the game which the player controls.
     """
 
-    def __init__(self):
+    def __init__(self, game):
         """ Constructor """
 
         # Calling the parent's constructor
         super().__init__()
+
+        self.game = game
 
         # Speed vectors of player
         self.change_x = 0
@@ -33,10 +34,10 @@ class Player(pygame.sprite.Sprite):
         self.running_frames_r = []
 
         # Dimensions of player (fat)
-        width = 70
-        height = 84
+        width = int(game.unit_width)
+        height = int(game.unit_height * 2)
 
-        path = "C:/Users/lucas.Lucas/Google Drive/Python/Level-0/.images/"
+        path = "D:/Users/lucas.Lucas/Google Drive/Python/Level-0/.images/"
 
         self.stand = pygame.transform.scale(pygame.image.load(path + "stand.png").convert_alpha(), [width, height])
 
@@ -203,7 +204,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.y += 2
 
         # Reset jump count
-        if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT \
+        if len(platform_hit_list) > 0 or self.rect.bottom >= self.game.screen_height\
                 or (self.rect.top <= 0 and self.reverse_gravity):
             self.jump_count = 2
 
@@ -222,9 +223,9 @@ class Player(pygame.sprite.Sprite):
                 self.change_y += .35
 
         # See if we are on the ground.
-        if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
+        if self.rect.y >= self.game.screen_height - self.rect.height and self.change_y >= 0:
             self.change_y = 0
-            self.rect.y = SCREEN_HEIGHT - self.rect.height
+            self.rect.y = self.game.screen_height - self.rect.height
         # See if we are on the ceiling
         if self.rect.y <= 0 and self.change_y <= 0:
             self.change_y = 0
@@ -269,7 +270,7 @@ class Player(pygame.sprite.Sprite):
         if diff_x == 0:
             diff_x = 1
         # Calculating the angle
-        velocity = 10
+        velocity = 15
         angle = maths.atan(diff_y / diff_x)
         if diff_x < 0:
             angle = maths.pi - angle
@@ -279,5 +280,3 @@ class Player(pygame.sprite.Sprite):
         self.energy -= 25
         self.change_x = self.dash_list[2]
         self.change_y = self.dash_list[3]
-
-

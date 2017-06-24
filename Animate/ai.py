@@ -1,5 +1,5 @@
 import pygame
-import time
+import random
 # import math as maths
 
 #                     attacks              speed hp  graphic
@@ -17,48 +17,31 @@ gravity_acceleration = 0  # Lucas, use a variable for gravity, then remove this.
 # They need a lot of individual attributes, like hp, and possibly courage if you can be bothered.
 
 
-"""def do_bullets(bullets, k):
-    pp=[player.rect.x, player.rect.y]
-    for b in bullets:
-        b[0]+=b[2]
-        b[1]+=b[3]
-        b[3]+=gravity_acceleration
-        if pp[0]<b[0]<pp[0]+20 and pp[1]+30<b[1]<pp[1]+84:  # HEADSHOT!
-            player.hp -= 36
-            k[b[5]] += b[4]
-            bullet.remove(b)
-        if pp[0]+20<b[0]<pp[0]+50 and pp[1]+30<b[1]<pp[1]+84:  # SHOT!
-            player.hp -= 12
-            k[b[5]] += b[4]
-            bullet.remove(b)
-        elif [b[0] - b[0] % 50, b[1] - b[1] % 50] in platform_list:
-            bullets.remove(b)
-            if b[4] in k[b[5]]: k[b[5]].remove(b[4])"""
 
-
-def ai(enemy, player):
+def ai(enemy, player, distance):
     """ Basic A.I. for enemies """
 
-    pp = [player.rect.x, player.rect.y]
-    ep = [enemy.rect.x, enemy.rect.y]
-    if pp[0] > ep[0] + 200:
-        enemy.go_right()
-    elif pp[0] < ep[0] - 200:
-        enemy.go_left()
-    else:
-        enemy.stop()
+    if not enemy.dead:
+        pp = [player.rect.x, player.rect.y]
+        ep = [enemy.rect.x, enemy.rect.y]
+        if pp[0] > ep[0] + distance:
+            enemy.go_right()
+        elif pp[0] < ep[0] - distance:
+            enemy.go_left()
+        else:
+            enemy.stop()
 
-    enemy.rect.x += 2
-    platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.block_list, False)
-    enemy.rect.x -= 2
-    if len(platform_hit_list) > 0 and enemy.change_x != 0:
-        enemy.jump()
+        enemy.rect.x += 2
+        platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.block_list, False)
+        enemy.rect.x -= 2
+        if len(platform_hit_list) > 0 and enemy.change_x != 0:
+            enemy.jump()
 
-    enemy.rect.x -= 2
-    platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.block_list, False)
-    enemy.rect.x += 2
-    if len(platform_hit_list) > 0 and enemy.change_x != 0:
-        enemy.jump()
+        enemy.rect.x -= 2
+        platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.block_list, False)
+        enemy.rect.x += 2
+        if len(platform_hit_list) > 0 and enemy.change_x != 0:
+            enemy.jump()
 """
     enemy.rect.x -= att[1]
     platform_hit_list = pygame.sprite.spritecollide(enemy, enemy.level.platform_list, False)

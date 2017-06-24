@@ -8,11 +8,11 @@ class Level_02(Level):
     Definition for level 2.
     """
 
-    def __init__(self, player):
+    def __init__(self, player, game):
         """ Create level 1. """
 
         # Call the parent constructor
-        Level.__init__(self, player)
+        Level.__init__(self, player, game)
 
         self.level_limit = -1000
 
@@ -26,14 +26,14 @@ class Level_02(Level):
 
         # Go through the array above and add platforms
         for platform in level:
-            block = Block()
+            block = Block(game)
             block.rect.x = platform[0]
             block.rect.y = platform[1]
             block.player = self.player
             self.block_list.add(block)
 
         # Add a custom moving block
-        block = MovingBlock()
+        block = MovingBlock(game)
         block.rect.x = 1500
         block.rect.y = 300
         block.boundary_top = 100

@@ -10,11 +10,11 @@ class Rifleman(Enemy):
     a basic rifleman.
     """
 
-    def __init__(self, player):
+    def __init__(self, player, game):
         """ Constructing the enemy """
 
         # Parent constructor
-        Enemy.__init__(self, player)
+        Enemy.__init__(self, player, game)
 
         self.hp = 24
         self.speed = 5
