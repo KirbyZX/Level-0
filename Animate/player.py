@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         width = int(game.unit_width)
         height = int(game.unit_height * 2)
 
-        path = "C:/Users/lucas.Lucas/Google Drive/Python/Level-0/.images/"
+        path = "D:/Users/lucas.Lucas/Google Drive/Python/Level-0/.images/"
 
         self.stand = pygame.transform.scale(pygame.image.load(path + "stand.png").convert_alpha(), [width, height])
 
