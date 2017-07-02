@@ -3,4 +3,5 @@ from game import Game
 
 if __name__ == "__main__":
     game = Game()
-    game.main()
+    game.start()
+    # game.main()

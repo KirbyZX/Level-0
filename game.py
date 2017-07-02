@@ -6,6 +6,7 @@ from Animate.rifleman import Rifleman
 from Inanimate.bullet import Bullet
 from Level.level_01 import Level_01
 from Level.level_02 import Level_02
+from start_menu import StartMenu
 from constants import *
 
 
@@ -25,7 +26,7 @@ class Game:
         self.screen_height = self.resolution[1]
         self.screen = pygame.display.set_mode(self.resolution, pygame.FULLSCREEN)
 
-        self.unit_width = self.screen_width / 27
+        self.unit_width = self.screen_width / 28
         self.unit_height = self.screen_height / 18
 
         # Object creation
@@ -55,16 +56,36 @@ class Game:
         self.active_sprite_list.add(self.player)
         self.current_level.enemy_list.add(self.enemy)
 
-        # Loop until the user clicks the close button.
-        self.done = False
+        self.start_menu = StartMenu(self)
 
         # Used to manage how fast the screen updates
         self.clock = pygame.time.Clock()
 
+    def start(self):
+        """ Start menu """
+
+        done = False
+        while not done:
+
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        done = True
+            self.start_menu.draw(self.screen)
+
+            pygame.display.flip()
+            if self.start_menu.check():
+                print("click")
+            self.clock.tick(60)
+            pygame.display.flip()
+
+        pygame.quit()
+
     def main(self):
         """ Main program """
 
-        while not self.done:
+        done = False
+        while not done:
 
             # Mouse position
             mouse_pos = pygame.mouse.get_pos()
@@ -72,7 +93,7 @@ class Game:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.done = True
+                    done = True
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.player.shooting = True
@@ -81,7 +102,7 @@ class Game:
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        self.done = True
+                        done = True
                     if event.key == pygame.K_h:
                         self.player.hp -= 10
                     if event.key == pygame.K_a:
@@ -210,8 +231,7 @@ class Game:
             # Outline
             pygame.draw.rect(self.screen, BLACK,
                              [self.unit_width - 2, self.unit_height,
-                              12 * self.unit_width + 3, self.unit_height / 4 + 5]
-                             , 2)
+                              12 * self.unit_width + 3, self.unit_height / 4 + 5], 2)
             # Bar
             pygame.draw.rect(self.screen, CYAN,
                              [self.unit_width, self.unit_height + 2,
