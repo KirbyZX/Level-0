@@ -8,20 +8,16 @@ class Button(pygame.sprite.Sprite):
     Button the user clicks.
     """
 
-    def __init__(self, text, game):
+    def __init__(self, width, height, text, game):
         """ Button constructor. """
 
         super().__init__()
 
         self.game = game
+        self.text = text
 
-        self.width = game.unit_width
-        self.height = game.unit_height
+        self.width = width * game.unit_width
+        self.height = height * game.unit_height
         self.image = pygame.Surface([self.width, self.height])
-        self.image.fill(GREEN)
-
-        pygame.font.init()
-        font = pygame.font.SysFont("Agency FB", 30)
-        self.text = font.render(text, False, (0, 0, 0))
-
+        self.image.fill(BLUE)
         self.rect = self.image.get_rect()

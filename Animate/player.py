@@ -33,8 +33,8 @@ class Player(pygame.sprite.Sprite):
         self.running_frames_l = []
         self.running_frames_r = []
 
-        # Dimensions of player (fat)
-        width = int(game.unit_width)
+        # Dimensions of player
+        width = int(game.unit_width * 2)
         height = int(game.unit_height * 2)
 
         path = "D:/Users/lucas.Lucas/Google Drive/Python/Level-0/.images/"
@@ -92,6 +92,7 @@ class Player(pygame.sprite.Sprite):
 
         # Starting image
         self.image = self.stand
+        self.run_count = 0
 
         # Image rectangle for collision
         self.rect = self.image.get_rect()
@@ -133,17 +134,23 @@ class Player(pygame.sprite.Sprite):
 
         # Animating
         if self.direction == "R" and self.change_x != 0:
-            frame = (pos // 20) % len(self.running_frames_r)
-            if self.reverse_gravity:
-                self.image = pygame.transform.flip(self.running_frames_r[frame], False, True)
+            if self.run_count >= 8:
+                self.run_count = 0
             else:
-                self.image = self.running_frames_r[frame]
+                self.run_count = self.run_count + 0.5
+            if self.reverse_gravity:
+                self.image = pygame.transform.flip(self.running_frames_r[int(self.run_count)], False, True)
+            else:
+                self.image = self.running_frames_r[int(self.run_count)]
         elif self.change_x != 0:
-            frame = (pos // 20) % len(self.running_frames_l)
-            if self.reverse_gravity:
-                self.image = pygame.transform.flip(self.running_frames_l[frame], False, True)
+            if self.run_count >= 8:
+                self.run_count = 0
             else:
-                self.image = self.running_frames_l[frame]
+                self.run_count = self.run_count + 0.5
+            if self.reverse_gravity:
+                self.image = pygame.transform.flip(self.running_frames_l[int(self.run_count)], False, True)
+            else:
+                self.image = self.running_frames_l[int(self.run_count)]
         else:
             if self.direction == "R":
                 if self.reverse_gravity:

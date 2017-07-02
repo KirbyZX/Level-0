@@ -26,13 +26,14 @@ class Bullet(pygame.sprite.Sprite):
     def calculate(self):
         """ Calculate angle and velocity. """
 
-        diff_x = self.target[0] - self.rect.x
-        diff_y = self.target[1] - self.rect.y
+        diff_x = float(self.target[0]) - self.rect.centerx
+        diff_y = float(self.target[1]) - self.rect.centery
         # Preventing division by zero
         if diff_x == 0:
             diff_x = 1
         # Calculating the angle
         angle = maths.atan(diff_y / diff_x)
+        print(angle)
         if diff_x < 0:
             angle = maths.pi - angle
             angle *= -1

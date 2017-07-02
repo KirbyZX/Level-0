@@ -32,7 +32,7 @@ class Enemy(pygame.sprite.Sprite):
         self.random = random.randrange(150, 250)
 
         # Add image-related stuff here
-        width = int(game.unit_width)
+        width = int(game.unit_width * 2)
         height = int(game.unit_height * 2)
         self.image = pygame.Surface([width, height])
         self.image.fill(random.choice(list_of_colours))

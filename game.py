@@ -1,4 +1,5 @@
 import time
+
 import pygame
 
 from Animate.player import Player
@@ -6,7 +7,7 @@ from Animate.rifleman import Rifleman
 from Inanimate.bullet import Bullet
 from Level.level_01 import Level_01
 from Level.level_02 import Level_02
-from start_menu import StartMenu
+from Menu.start_menu import StartMenu
 from constants import *
 
 
@@ -27,7 +28,7 @@ class Game:
         self.screen = pygame.display.set_mode(self.resolution, pygame.FULLSCREEN)
 
         self.unit_width = self.screen_width / 28
-        self.unit_height = self.screen_height / 18
+        self.unit_height = self.screen_height / 16
 
         # Object creation
         self.player = Player(self)
@@ -67,21 +68,29 @@ class Game:
         done = False
         while not done:
 
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        done = True
-            self.start_menu.draw(self.screen)
+            mouse_pos = pygame.mouse.get_pos()
 
-            pygame.display.flip()
-            if self.start_menu.check():
-                print("click")
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    for button in self.start_menu.button_list:
+                        if button.rect.x < mouse_pos[0] < button.rect.x + button.width and button.rect.y < mouse_pos[1] < button.rect.y + button.height:
+                            if button.text == "Start":
+                                done = True
+                            if button.text == "Exit":
+                                done = True
+                                pygame.quit()
+
+            for button in self.start_menu.button_list:
+                if button.rect.x < mouse_pos[0] < button.rect.x + button.width and button.rect.y < mouse_pos[1] < button.rect.y + button.height:
+                    button.image.fill(WHITE)
+                else:
+                    button.image.fill(BLUE)
+
+            self.start_menu.draw(self.screen)
             self.clock.tick(60)
             pygame.display.flip()
 
-        pygame.quit()
-
-    def main(self):
+    def play(self):
         """ Main program """
 
         done = False
