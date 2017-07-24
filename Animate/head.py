@@ -32,9 +32,15 @@ class Head(pygame.sprite.Sprite):
 
         # Animating (still need rotation)
         if self.character.direction == "R":
-            self.rect.center = self.character.rect.topright
+            if not self.character.reverse_gravity:
+                self.rect.center = self.character.rect.topright
+            else:
+                self.rect.center = self.character.rect.bottomright
         else:
-            self.rect.center = self.character.rect.topleft
+            if not self.character.reverse_gravity:
+                self.rect.center = self.character.rect.topleft
+            else:
+                self.rect.center = self.character.rect.bottomleft
 
         if self.character.change_x == 0:
             self.rect.centerx = self.character.rect.centerx
