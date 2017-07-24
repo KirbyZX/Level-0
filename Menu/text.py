@@ -14,8 +14,12 @@ class Text(pygame.sprite.Sprite):
         super().__init__()
 
         self.game = game
+        self.colour = colour
+        self.text = text
+        self.size = size
+        self.style = "Courier New"
 
         pygame.font.init()
-        font = pygame.font.SysFont("Calibri", size)
-        self.image = font.render(text, False, colour)
+        self.font = pygame.font.SysFont(self.style, size)
+        self.image = self.font.render(text, False, colour)
         self.rect = self.image.get_rect()

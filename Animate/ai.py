@@ -17,7 +17,6 @@ gravity_acceleration = 0  # Lucas, use a variable for gravity, then remove this.
 # They need a lot of individual attributes, like hp, and possibly courage if you can be bothered.
 
 
-
 def ai(enemy, player, distance):
     """ Basic A.I. for enemies """
 

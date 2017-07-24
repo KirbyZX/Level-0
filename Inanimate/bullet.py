@@ -33,7 +33,6 @@ class Bullet(pygame.sprite.Sprite):
             diff_x = 1
         # Calculating the angle
         angle = maths.atan(diff_y / diff_x)
-        print(angle)
         if diff_x < 0:
             angle = maths.pi - angle
             angle *= -1

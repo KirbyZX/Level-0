@@ -1,167 +1,76 @@
 import pygame
-import math as maths
 import time
+import math
 
 from Level.block_moving import MovingBlock
 from Level.platform import Platform
+from constants import *
 
 
 class Player(pygame.sprite.Sprite):
     """
-    Represents the main character of the game which the player controls.
+    Generic class for defining the player.
     """
 
     def __init__(self, game):
         """ Constructor """
 
-        # Calling the parent's constructor
         super().__init__()
 
+        # Reference to game for screen ratios
         self.game = game
 
-        # Speed vectors of player
+        # Speed vectors
         self.change_x = 0
         self.change_y = 0
 
-        # List of sprites the player can collide with
+        # Reference to level for collisions
         self.level = None
 
-        # Direction of the player
+        # Direction
         self.direction = "R"
-
-        # Lists that hold the running frames
-        self.running_frames_l = []
-        self.running_frames_r = []
-
-        # Dimensions of player
-        width = int(game.unit_width * 2)
-        height = int(game.unit_height * 2)
-
-        path = "D:/Users/lucas.Lucas/Google Drive/Python/Level-0/.images/"
-
-        self.stand = pygame.transform.scale(pygame.image.load(path + "stand.png").convert_alpha(), [width, height])
-
-        # Right-facing images
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run0.png").convert_alpha(), [width, height])
-        self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run1.png").convert_alpha(), [width, height])
-        self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run2.png").convert_alpha(), [width, height])
-        self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run3.png").convert_alpha(), [width, height])
-        self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run4.png").convert_alpha(), [width, height])
-        self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run5.png").convert_alpha(), [width, height])
-        self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run6.png").convert_alpha(), [width, height])
-        self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run7.png").convert_alpha(), [width, height])
-        self.running_frames_r.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run8.png").convert_alpha(), [width, height])
-        self.running_frames_r.append(image)
-
-        # Left-facing images
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run0.png").convert_alpha(), [width, height])
-        image = pygame.transform.flip(image, True, False)
-        self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run1.png").convert_alpha(), [width, height])
-        image = pygame.transform.flip(image, True, False)
-        self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run2.png").convert_alpha(), [width, height])
-        image = pygame.transform.flip(image, True, False)
-        self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run3.png").convert_alpha(), [width, height])
-        image = pygame.transform.flip(image, True, False)
-        self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run4.png").convert_alpha(), [width, height])
-        image = pygame.transform.flip(image, True, False)
-        self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run5.png").convert_alpha(), [width, height])
-        image = pygame.transform.flip(image, True, False)
-        self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run6.png").convert_alpha(), [width, height])
-        image = pygame.transform.flip(image, True, False)
-        self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run7.png").convert_alpha(), [width, height])
-        image = pygame.transform.flip(image, True, False)
-        self.running_frames_l.append(image)
-        image = pygame.transform.scale(pygame.image.load(path + "player_run/run8.png").convert_alpha(), [width, height])
-        image = pygame.transform.flip(image, True, False)
-        self.running_frames_l.append(image)
-
-        # Starting image
-        self.image = self.stand
-        self.run_count = 0
-
-        # Image rectangle for collision
-        self.rect = self.image.get_rect()
 
         # Hit points
         self.hp = 100
 
-        # Dash control:   dashing?, dash time,   x, y
-        self.dash_list = [False,    time.time(), 0, 0]
+        # Dash control
+        self.dashing = False
+        self.dash_time = time.time()
 
-        self.mouse = []
+        # Mouse
+        self.mouse = [0, 0]
 
         # Energy
         self.energy = 100
 
-        # Handling automatic shooting
-        self.cooldown = 0.1
-        self.shot_time = 0
-        self.shooting = False
-
+        # Jump count
         self.jump_count = 2
 
         # Reverse gravity
         self.reverse_gravity = False
 
+        # Handling automatic shooting
+        self.cooldown = 0.5
+        self.shot_time = 0
+        self.shooting = False
+
+        # Image - acts as hit box
+        width = int(game.unit_width * 2)
+        height = int(game.unit_height * 2)
+        self.image = pygame.Surface([width, height])
+        self.image.fill(BLACK)
+        self.image.set_colorkey(BLACK)
+        self.rect = self.image.get_rect()
+
     def update(self):
-        """ Moving the player. """
+        """ Moving the character """
 
         # Gravity
-
-        if not self.dash_list[0]:
+        if not self.dashing:
             self.calc_gravity()
 
         # Move left/right
         self.rect.x += self.change_x
-
-        # Player position
-        pos = self.rect.x + self.level.level_shift
-
-        # Animating
-        if self.direction == "R" and self.change_x != 0:
-            if self.run_count >= 8:
-                self.run_count = 0
-            else:
-                self.run_count = self.run_count + 0.5
-            if self.reverse_gravity:
-                self.image = pygame.transform.flip(self.running_frames_r[int(self.run_count)], False, True)
-            else:
-                self.image = self.running_frames_r[int(self.run_count)]
-        elif self.change_x != 0:
-            if self.run_count >= 8:
-                self.run_count = 0
-            else:
-                self.run_count = self.run_count + 0.5
-            if self.reverse_gravity:
-                self.image = pygame.transform.flip(self.running_frames_l[int(self.run_count)], False, True)
-            else:
-                self.image = self.running_frames_l[int(self.run_count)]
-        else:
-            if self.direction == "R":
-                if self.reverse_gravity:
-                    self.image = pygame.transform.flip(self.stand, False, True)
-                else:
-                    self.image = self.stand
-            else:
-                if self.reverse_gravity:
-                    self.image = pygame.transform.flip(pygame.transform.flip(self.stand, True, False), False, True)
-                else:
-                    self.image = pygame.transform.flip(self.stand, True, False)
 
         # See if we hit anything
         block_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
@@ -209,14 +118,13 @@ class Player(pygame.sprite.Sprite):
             self.rect.y -= 2
             platform_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
             self.rect.y += 2
-
         # Reset jump count
-        if len(platform_hit_list) > 0 or self.rect.bottom >= self.game.screen_height\
+        if len(platform_hit_list) > 0 or self.rect.bottom >= self.game.screen_height \
                 or (self.rect.top <= 0 and self.reverse_gravity):
             self.jump_count = 2
 
     def calc_gravity(self):
-        """ Calculate effect of gravity. """
+        """ Calculating gravity """
 
         if self.change_y == 0:
             if self.reverse_gravity:
@@ -238,10 +146,10 @@ class Player(pygame.sprite.Sprite):
             self.change_y = 0
             self.rect.y = 0
 
-    # Player-controlled movement:
+    # User controlled movement:
 
     def jump(self):
-        """ Called when user hits 'jump' button. """
+        """ Character jumps """
 
         if self.jump_count > 0:
             if not self.reverse_gravity:
@@ -266,11 +174,13 @@ class Player(pygame.sprite.Sprite):
         """ Called when the user lets off the keyboard. """
 
         self.change_x = 0
-       
+
     def dash(self):
         """ Moves the player towards the mouse. """
 
-        self.dash_list[1] = time.time()
+        self.dash_time = time.time()
+        print(self.mouse[0])
+        print(self.rect.x)
         diff_x = self.mouse[0] - self.rect.x
         diff_y = self.mouse[1] - self.rect.y
         # Preventing division by zero
@@ -278,12 +188,13 @@ class Player(pygame.sprite.Sprite):
             diff_x = 1
         # Calculating the angle
         velocity = 15
-        angle = maths.atan(diff_y / diff_x)
+        angle = math.atan(diff_y / diff_x)
         if diff_x < 0:
-            angle = maths.pi - angle
+            angle = math.pi - angle
             angle *= -1
         # Calculating movement
-        self.dash_list = [True, time.time(), velocity * maths.cos(angle), velocity * maths.sin(angle)]
+        self.dashing = True
+        self.dash_time = time.time()
         self.energy -= 25
-        self.change_x = self.dash_list[2]
-        self.change_y = self.dash_list[3]
+        self.change_x = velocity * math.cos(angle)
+        self.change_y = velocity * math.sin(angle)

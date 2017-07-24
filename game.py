@@ -1,14 +1,16 @@
 import time
-
 import pygame
 
+from constants import *
+from Menu.start_menu import StartMenu
+from Animate.head import Head
+from Animate.arms import Arms
+from Animate.legs import Legs
 from Animate.player import Player
 from Animate.rifleman import Rifleman
 from Inanimate.bullet import Bullet
 from Level.level_01 import Level_01
 from Level.level_02 import Level_02
-from Menu.start_menu import StartMenu
-from constants import *
 
 
 class Game:
@@ -30,34 +32,10 @@ class Game:
         self.unit_width = self.screen_width / 28
         self.unit_height = self.screen_height / 16
 
-        # Object creation
-        self.player = Player(self)
-        self.enemy = Rifleman(self.player, self)
-
         # Personalising
         pygame.display.set_caption("Level Zero")
-        pygame.display.set_icon(pygame.transform.scale(self.player.running_frames_r[0], [32, 32]))
+        # pygame.display.set_icon(pygame.transform.scale("icon", [32, 32]))
         pygame.mouse.set_cursor(*pygame.cursors.broken_x)
-
-        # Create all the levels
-        self.level_list = [Level_01(self.player, self), Level_02(self.player, self)]
-
-        # Set the current level
-        self.current_level_no = 0
-        self.current_level = self.level_list[self.current_level_no]
-
-        self.player.level = self.current_level
-        self.enemy.level = self.current_level
-        self.enemy.player = self.player
-
-        # List creation
-        self.active_sprite_list = pygame.sprite.Group()
-        self.player.rect.x = 340
-        self.player.rect.y = self.screen_height - self.player.rect.height
-        self.active_sprite_list.add(self.player)
-        self.current_level.enemy_list.add(self.enemy)
-
-        self.start_menu = StartMenu(self)
 
         # Used to manage how fast the screen updates
         self.clock = pygame.time.Clock()
@@ -65,6 +43,8 @@ class Game:
     def start(self):
         """ Start menu """
 
+        start_menu = StartMenu(self)
+
         done = False
         while not done:
 
@@ -72,170 +52,212 @@ class Game:
 
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    for button in self.start_menu.button_list:
-                        if button.rect.x < mouse_pos[0] < button.rect.x + button.width and button.rect.y < mouse_pos[1] < button.rect.y + button.height:
+                    for button in start_menu.button_list:
+                        if button.rect.x < mouse_pos[0] < button.rect.x + button.width and \
+                           button.rect.y < mouse_pos[1] < button.rect.y + button.height:
                             if button.text == "Start":
                                 done = True
                             if button.text == "Exit":
                                 done = True
                                 pygame.quit()
 
-            for button in self.start_menu.button_list:
-                if button.rect.x < mouse_pos[0] < button.rect.x + button.width and button.rect.y < mouse_pos[1] < button.rect.y + button.height:
-                    button.image.fill(WHITE)
-                else:
-                    button.image.fill(BLUE)
+            for button in start_menu.button_list:
+                for text in start_menu.text_list:
+                    if button.rect.x < mouse_pos[0] < button.rect.x + button.width and \
+                       button.rect.y < mouse_pos[1] < button.rect.y + button.height:
+                        button.image.fill(WHITE)
+                        if button.text == text.text:
+                            text.font = pygame.font.SysFont(text.style, text.size)
+                            text.image = text.font.render(text.text, False, BLACK)
+                            break
 
-            self.start_menu.draw(self.screen)
+                    else:
+                        button.image.fill(BLACK)
+                        text.font = pygame.font.SysFont(text.style, text.size)
+                        text.image = text.font.render(text.text, False, WHITE)
+
+            start_menu.draw(self.screen)
             self.clock.tick(60)
             pygame.display.flip()
 
     def play(self):
         """ Main program """
 
+        # Player creation
+        player = Player(self)
+        head = Head(player, None, self)
+        legs = Legs(player, self)
+
+        # Enemy creation
+        enemy = Rifleman(player, self)
+
+        # Create all the levels
+        level_list = [Level_01(player, self), Level_02(player, self)]
+
+        # Set the current level
+        current_level_no = 0
+        current_level = level_list[current_level_no]
+
+        # Setting up stuff
+        player.level = current_level
+        enemy.level = current_level
+        enemy.player = player
+
+        # Positioning player
+        player.rect.x = 340
+        player.rect.y = self.screen_height - player.rect.height
+        player.rect.x = 340
+        player.rect.y = self.screen_height - player.rect.height
+
+        # Sprite list
+        active_sprite_list = pygame.sprite.Group()
+        active_sprite_list.add(player, head, legs)
+        active_sprite_list.add(enemy.bullet_list)
+        current_level.enemy_list.add(enemy)
+
         done = False
         while not done:
 
             # Mouse position
             mouse_pos = pygame.mouse.get_pos()
-            self.player.mouse = mouse_pos
+            player.mouse = mouse_pos
+            head.mouse = mouse_pos
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done = True
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.player.shooting = True
+                    player.shooting = True
                 if event.type == pygame.MOUSEBUTTONUP:
-                    self.player.shooting = False
+                    player.shooting = False
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         done = True
                     if event.key == pygame.K_h:
-                        self.player.hp -= 10
+                        player.hp -= 10
                     if event.key == pygame.K_a:
-                        self.player.go_left()
+                        player.go_left()
                     if event.key == pygame.K_d:
-                        self.player.go_right()
+                        player.go_right()
                     if event.key == pygame.K_w:
-                        self.player.jump()
+                        player.jump()
                     if event.key == pygame.K_e:
-                        if self.player.energy >= 25:
-                            self.player.dash()
+                        if player.energy >= 25:
+                            player.dash()
                     if event.key == pygame.K_r:
-                        self.player.reverse_gravity = not self.player.reverse_gravity
+                        player.reverse_gravity = not player.reverse_gravity
                     if event.key == pygame.K_q:
                         # Spawn enemy
-                        self.enemy = Rifleman(self.player, self)
-                        self.enemy.level = self.current_level
-                        self.enemy.player = self.player
-                        self.enemy.rect.x = mouse_pos[0]
-                        self.enemy.rect.y = mouse_pos[1]
-                        self.current_level.enemy_list.add(self.enemy)
+                        enemy = Rifleman(player, self)
+                        enemy.level = current_level
+                        enemy.player = player
+                        enemy.rect.x = mouse_pos[0]
+                        enemy.rect.y = mouse_pos[1]
+                        current_level.enemy_list.add(enemy)
 
                 if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_a and self.player.change_x < 0:
-                        self.player.stop()
-                    if event.key == pygame.K_d and self.player.change_x > 0:
-                        self.player.stop()
+                    if event.key == pygame.K_a and player.change_x < 0:
+                        player.stop()
+                    if event.key == pygame.K_d and player.change_x > 0:
+                        player.stop()
 
-            # Update the player.
-            self.active_sprite_list.add(self.enemy.bullet_list)
-            self.active_sprite_list.update()
+            # UPDATE SPRITES
+            active_sprite_list.update()
 
-            # SHOTS FIRED
-            if self.player.shooting and time.time() >= self.player.shot_time + self.player.cooldown:
+            # Shooting
+            if player.shooting and time.time() >= player.shot_time + player.cooldown:
                 # Fire a bullet if the user clicks
                 bullet = Bullet(mouse_pos)
                 # Cooldown calculation code
-                self.player.shot_time = time.time()
+                player.shot_time = time.time()
                 # Set the bullet so it is where the player is
-                bullet.rect.x = self.player.rect.x + 35
-                bullet.rect.y = self.player.rect.y + 10
+                bullet.rect.x = player.rect.x + 35
+                bullet.rect.y = player.rect.y + 10
                 bullet.calculate()
                 # Add the bullet to the lists
-                self.active_sprite_list.add(bullet)
-                self.level_list[self.current_level_no].bullet_list.add(bullet)
+                active_sprite_list.add(bullet)
+                level_list[current_level_no].bullet_list.add(bullet)
 
             # Stopping dashes
-            if self.player.dash_list[0]:
-                if time.time() - self.player.dash_list[1] >= .25:
-                    self.player.dash_list[0] = False
-                    self.player.stop()
+            if player.dashing:
+                if time.time() - player.dash_time >= .25:
+                    player.dashing = False
+                    player.stop()
 
-            for bullet in self.level_list[self.current_level_no].bullet_list:
+            for bullet in level_list[current_level_no].bullet_list:
 
                 # See if it hit a block
-                block_hit_list = pygame.sprite.spritecollide(bullet, self.level_list[self.current_level_no].block_list,
+                block_hit_list = pygame.sprite.spritecollide(bullet, level_list[current_level_no].block_list,
                                                              False)
 
                 # For each block hit, remove the bullet
                 for _ in block_hit_list:
-                    self.level_list[self.current_level_no].bullet_list.remove(bullet)
-                    self.active_sprite_list.remove(bullet)
+                    level_list[current_level_no].bullet_list.remove(bullet)
+                    active_sprite_list.remove(bullet)
 
                 # Remove the bullet if it flies up off the screen
                 if bullet.rect.x > self.screen_width + 5 or bullet.rect.x < -5:
-                    self.level_list[self.current_level_no].bullet_list.remove(bullet)
-                    self.active_sprite_list.remove(bullet)
+                    level_list[current_level_no].bullet_list.remove(bullet)
+                    active_sprite_list.remove(bullet)
 
-            # Update items in the level
-            self.current_level.update(self.player)
+            # UPDATE LEVEL
+            current_level.update(player)
 
             # Killing enemies
-            for enemy in self.current_level.enemy_list:
+            for enemy in current_level.enemy_list:
                 if not enemy.dead:
-                    bullet_hit_list = pygame.sprite.spritecollide(enemy, self.current_level.bullet_list, True)
+                    bullet_hit_list = pygame.sprite.spritecollide(enemy, current_level.bullet_list, True)
                     if len(bullet_hit_list) > 0:
                         enemy.health -= 10
                     if enemy.health <= 0:
                         enemy.die()
-                        self.active_sprite_list.remove(enemy)
+                        active_sprite_list.remove(enemy)
 
             # If the player gets near the right side, shift the world left (-x)
             right_limit = int(self.screen_width * 4 / 5)
-            if self.player.rect.right >= right_limit:
-                diff = self.player.rect.right - right_limit
-                self.player.rect.right = right_limit
-                self.current_level.scroll(-diff)
+            if player.rect.right >= right_limit:
+                diff = player.rect.right - right_limit
+                player.rect.right = right_limit
+                current_level.scroll(-diff)
 
             # If the player gets near the left side, shift the world right (+x)
             left_limit = int(self.screen_width * 1 / 5)
-            if self.player.rect.left <= left_limit:
-                if self.current_level.level_shift >= 0:
-                    self.current_level.level_shift = 0
-                    if self.player.rect.left <= 0:
-                        self.player.rect.left = 0
+            if player.rect.left <= left_limit:
+                if current_level.level_shift >= 0:
+                    current_level.level_shift = 0
+                    if player.rect.left <= 0:
+                        player.rect.left = 0
                 else:
-                    diff = left_limit - self.player.rect.left
-                    self.player.rect.left = left_limit
-                    self.current_level.scroll(diff)
+                    diff = left_limit - player.rect.left
+                    player.rect.left = left_limit
+                    current_level.scroll(diff)
 
             # If the player gets to the end of the level, go to the next level
-            current_position = self.player.rect.x + self.current_level.level_shift
-            if current_position < self.current_level.level_limit:
-                self.player.rect.x = 120
-                if self.current_level_no < len(self.level_list) - 1:
-                    self.current_level_no += 1
-                    self.current_level = self.level_list[self.current_level_no]
-                    self.player.level = self.current_level
+            current_position = player.rect.x + current_level.level_shift
+            if current_position < current_level.level_limit:
+                player.rect.x = 120
+                if current_level_no < len(level_list) - 1:
+                    current_level_no += 1
+                    current_level = level_list[current_level_no]
+                    player.level = current_level
 
             # ALL CODE TO DRAW SHOULD GO BELOW
 
-            self.current_level.draw(self.screen)
-            self.active_sprite_list.draw(self.screen)
+            current_level.draw(self.screen)
+            active_sprite_list.draw(self.screen)
 
             # HEALTH bar
             # Outline
             pygame.draw.rect(self.screen, BLACK,
                              [self.unit_width - 2, self.unit_height / 2 - 2,
-                              self.unit_width * 24 + 3, self.unit_height / 2 + 3], 2)
+                              self.unit_width * 26 + 3, self.unit_height / 2 + 3], 2)
             # Bar
             pygame.draw.rect(self.screen,
-                             (255 - int((255 * self.player.hp / 100) // 1), int((255 * self.player.hp / 100) // 1), 0),
+                             (255 - int((255 * player.hp / 100) // 1), int((255 * player.hp / 100) // 1), 0),
                              [self.unit_width, self.unit_height / 2,
-                              self.unit_width * 12 * self.player.hp / 50, self.unit_height / 2])
+                              self.unit_width * 13 * player.hp / 50, self.unit_height / 2])
             # ENERGY bar
             # Outline
             pygame.draw.rect(self.screen, BLACK,
@@ -244,7 +266,7 @@ class Game:
             # Bar
             pygame.draw.rect(self.screen, CYAN,
                              [self.unit_width, self.unit_height + 2,
-                              self.unit_width * 6 * self.player.energy / 50, self.unit_height / 4 + 2])
+                              self.unit_width * 6 * player.energy / 50, self.unit_height / 4 + 2])
 
             # ALL CODE TO DRAW SHOULD GO ABOVE
 
