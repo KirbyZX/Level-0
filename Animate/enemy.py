@@ -4,20 +4,38 @@ from Animate.ai import ai
 from constants import *
 
 info={}
-eInfo=open("enemies.txt", "w")
+eInfo=open("enemies", "r")
 eInfoL=eInfo.readlines()
+for e in eInfoL:
+    e=e.split("\\")
+    e=e[0]
+    e=e.split(":")
+    Ename=e[0]
+    Einfo=e[1]
+    Einfo=Einfo.split(",")
+    for i in Einfo:
+        ii=Einfo.index(i)
+        try:
+            i=float(i)
+        except ValueError:
+            i=i.split("-")
+            for eye in i:
+                eyei=i.index(eye)
+                try: eye=float(eye)
+                except ValueError: eye=str(eye)
+                i[eyei]=eye
+        Einfo[ii]=i
+    info[Ename]=Einfo
 
 class Enemy(pygame.sprite.Sprite):
     """
     General class to represent enemies.
     """
 
-    def __init__(self, player, type):
+    def __init__(self, player):
         """ Constructor """
 
         super().__init__()
-        
-        self.info=info[type]
 
         self.change_x = 0
         self.change_y = 0
@@ -27,8 +45,6 @@ class Enemy(pygame.sprite.Sprite):
 
         self.direction = "R"
         self.angle = 0
-        self.hp=self.info[0]
-        self.speed=self.info[1]
 
         # Add image-related stuff here
         width = 70
@@ -50,7 +66,7 @@ class Enemy(pygame.sprite.Sprite):
         # Add animation of images
 
         # AI
-        ai(self, self.player)
+        ai(self, self.player, 20)
 
         # Checking collisions
         block_hit_list = pygame.sprite.spritecollide(self, self.level.block_list, False)
