@@ -17,7 +17,7 @@ class Player(pygame.sprite.Sprite):
 
         super().__init__()
 
-        # Reference to game for screen ratios
+        # Reference to game for screen ratio
         self.game = game
 
         # Speed vectors
